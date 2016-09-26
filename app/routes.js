@@ -35,27 +35,6 @@ module.exports = function(app, passport)
     // =============================================================================
 
     // =====================================
-    // GOOGLE ROUTES =======================
-    // =====================================
-    // send to google to do the authentication
-    // profile gets us their basic information including their name
-    // email gets their emails
-    app.get('/auth/google', passport.authenticate('google',
-        {
-            prompt : 'consent',
-            accessType : 'offline',
-            scope : ['profile', 'email', 'https://www.googleapis.com/auth/analytics','https://www.googleapis.com/auth/analytics.edit']
-        }));
-
-    // the callback after google has authenticated the user
-    app.get('/auth/google/callback',
-        passport.authenticate('google',
-            {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
-
-    // =====================================
     // SLACK ROUTES ========================
     // =====================================
     app.get('/auth/slack', passport.authenticate('slack'));
@@ -67,58 +46,71 @@ module.exports = function(app, passport)
                 failureRedirect : '/'
             }));
 
+    // =============================================================================
+    // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
+    // =============================================================================
+
     // =====================================
-    // FACEBOOK ROUTES =====================
+    // FACEBOOK AUTHORIZE ROUTES ===========
     // =====================================
-    // route for facebook authentication and login
-    app.get('/auth/facebook', passport.authenticate('facebook',
+
+    app.get('/connect/facebook', passport.authorize('facebook',
         {
             scope : ['email', 'manage_pages', 'publish_pages' ]
         }));
 
     // handle the callback after facebook has authenticated the user
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook',
+    app.get('/connect/facebook/callback',
+        passport.authorize('facebook',
+            {
+                successRedirect : '/profile',
+                failureRedirect : '/'
+            }));
+
+    // =====================================
+    // GOOGLE AUTHORIZE ROUTES =============
+    // =====================================
+
+    app.get('/connect/google', passport.authorize('google',
+        {
+            prompt : 'consent',
+            accessType : 'offline',
+            scope : ['profile', 'email', 'https://www.googleapis.com/auth/analytics','https://www.googleapis.com/auth/analytics.edit']
+        }));
+
+    // the callback after google has authenticated the user
+    app.get('/connect/google/callback',
+        passport.authorize('google',
             {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
 
     // =============================================================================
-    // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
+    // UNLINK AND DELETE SOCIAL ACCOUNTS FROM SLACK USER ===========================
     // =============================================================================
 
     // facebook -------------------------------
-
-    // send to facebook to do the authentication
-    app.get('/connect/facebook', passport.authorize('facebook',
+    app.get('/unlink/facebook', function(req, res)
+    {
+        var user            = req.user;
+        user.facebook.token = undefined;
+        user.save(function(err)
         {
-            scope : 'email'
-        }));
-
-    // handle the callback after facebook has authorized the user
-    app.get('/connect/facebook/callback', passport.authorize('facebook',
-        {
-            successRedirect : '/profile',
-            failureRedirect : '/'
-        }));
+            res.redirect('/profile');
+        });
+    });
 
     // google ---------------------------------
-
-    // send to google to do the authentication
-    app.get('/connect/google', passport.authorize('google',
+    app.get('/unlink/google', function(req, res)
+    {
+        var user          = req.user;
+        user.google.token = undefined;
+        user.save(function(err)
         {
-            scope : ['profile', 'email']
-        }));
-
-    // the callback after google has authorized the user
-    app.get('/connect/google/callback', passport.authorize('google',
-        {
-            successRedirect : '/profile',
-            failureRedirect : '/'
-        }));
-
-
+            res.redirect('/profile');
+        });
+    });
 
 };
 
