@@ -43,7 +43,7 @@ module.exports = function(passport)
                 clientID: configAuth.slackbotAuth.clientID,
                 clientSecret: configAuth.slackbotAuth.clientSecret,
                 callbackURL: configAuth.slackbotAuth.callbackURL,
-                scope: 'incoming-webhook users:read chat:write:bot emoji:read'
+                scope: 'incoming-webhook emoji:read'
             },
             function(accessToken, refreshToken, profile, done)
             {
