@@ -60,18 +60,17 @@ module.exports = function(app, passport)
         }));
 
     // handle the callback after facebook has authenticated the user
-    app.get('/connect/facebook/callback',
-        passport.authorize('facebook',
-            {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+    app.get('/connect/facebook/callback', passport.authorize('facebook',
+        {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
 
     // =====================================
     // GOOGLE AUTHORIZE ROUTES =============
     // =====================================
 
-    app.get('/connect/google', passport.authorize('google',
+    app.get('/connect/google', passport.authenticate('google',
         {
             prompt : 'consent',
             accessType : 'offline',
@@ -79,12 +78,11 @@ module.exports = function(app, passport)
         }));
 
     // the callback after google has authenticated the user
-    app.get('/connect/google/callback',
-        passport.authorize('google',
-            {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+    app.get('/connect/google/callback', passport.authenticate('google',
+        {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
 
     // =============================================================================
     // UNLINK AND DELETE SOCIAL ACCOUNTS FROM SLACK USER ===========================
