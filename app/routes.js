@@ -84,6 +84,22 @@ module.exports = function(app, passport)
             failureRedirect : '/'
         }));
 
+
+    // =====================================
+    // TWITTER AUTHORIZE ROUTES ============
+    // =====================================
+
+    // send to twitter to do the authentication
+    app.get('/connect/twitter', passport.authenticate('twitter', { scope : 'email' }));
+
+    // handle the callback after twitter has authenticated the user
+    app.get('/connect/twitter/callback',
+        passport.authenticate('twitter',
+        {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
     // =============================================================================
     // UNLINK AND DELETE SOCIAL ACCOUNTS FROM SLACK USER ===========================
     // =============================================================================

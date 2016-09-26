@@ -8,6 +8,12 @@ module.exports =
         'callbackURL'   : 'http://slackanalytics.com/connect/google/callback'
     },
 
+    'twitterAuth' : {
+        'consumerKey'        : 'PBcN0ea0mLh0cGNaPRmiFjc7U',
+        'consumerSecret'     : 'YCLX95B0vNsjqKcOq5MAn4GYUeuCeaoANqr9hnrjouOsi4p7gS',
+        'callbackURL'        : 'http://slackanalytics.com/connect/twitter/callback'
+    },
+
     'slackbotAuth' :
     {
         'clientID'      : '74006495490.83331616626',
@@ -17,8 +23,8 @@ module.exports =
 
     'facebookAuth' :
     {
-        'clientID'      : '302437283460327', // your App ID
-        'clientSecret'  : '11d7abf49b3f5948fb5e0b807024c799', // your App Secret
+        'clientID'      : '302437283460327',
+        'clientSecret'  : '11d7abf49b3f5948fb5e0b807024c799',
         'callbackURL'   : 'http://slackanalytics.com/connect/facebook/callback'
     }
 

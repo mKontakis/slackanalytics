@@ -34,6 +34,26 @@
             </div>
         </div>
 
+        <!-- TWITTER INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-info"><span class="fa fa-twitter"></span> Twitter</h3>
+
+                <% if (user.twitter.token) { %>
+                <p>
+                    <strong>id</strong>: <%= user.twitter.id %><br>
+                    <strong>token</strong>: <%= user.twitter.token %><br>
+                    <strong>display name</strong>: <%= user.twitter.displayName %><br>
+                    <strong>username</strong>: <%= user.twitter.username %>
+                </p>
+                <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
+                <% } else { %>
+                <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
+                <% } %>
+
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
