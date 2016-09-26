@@ -56,7 +56,8 @@ module.exports = function(app, passport)
 
     app.get('/connect/facebook', passport.authenticate('facebook',
         {
-            scope : ['email', 'manage_pages', 'publish_pages' ]
+            scope : ['email', 'manage_pages', 'publish_pages' ],
+            auth_type: 'reauthenticate'
         }));
 
     // handle the callback after facebook has authenticated the user
@@ -108,7 +109,7 @@ module.exports = function(app, passport)
     app.get('/unlink/facebook', function(req, res)
     {
         var user            = req.user;
-        user.facebook.remove({});
+        user.facebook = undefined;
         user.save(function(err)
         {
             res.redirect('/profile');
@@ -119,7 +120,7 @@ module.exports = function(app, passport)
     app.get('/unlink/google', function(req, res)
     {
         var user          = req.user;
-        user.google.remove({});
+        user.google = undefined ;
         user.save(function(err)
         {
             res.redirect('/profile');
@@ -130,8 +131,9 @@ module.exports = function(app, passport)
     app.get('/unlink/twitter', function(req, res)
     {
         var user           = req.user;
-        user.twitter.remove({});
-        user.save(function(err) {
+        user.twitter = undefined;
+        user.save(function(err)
+        {
             res.redirect('/profile');
         });
     });
