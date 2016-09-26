@@ -54,13 +54,13 @@ module.exports = function(app, passport)
     // FACEBOOK AUTHORIZE ROUTES ===========
     // =====================================
 
-    app.get('/connect/facebook', passport.authorize('facebook',
+    app.get('/connect/facebook', passport.authenticate('facebook',
         {
             scope : ['email', 'manage_pages', 'publish_pages' ]
         }));
 
     // handle the callback after facebook has authenticated the user
-    app.get('/connect/facebook/callback', passport.authorize('facebook',
+    app.get('/connect/facebook/callback', passport.authenticate('facebook',
         {
             successRedirect : '/profile',
             failureRedirect : '/'
