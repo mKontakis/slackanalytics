@@ -18,44 +18,72 @@
 
     <div class="row">
 
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>email</strong>: <%= user.google.email %><br>
-                        <strong>refreshToken</strong>: <%= user.google.refreshToken %>
-                    </p>
-            </div>
-        </div>
-
-        <!-- SLACK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Slack</h3>
-                    <p>
-                        <strong>id</strong>: <%= user.slack.id %><br>
-                        <strong>token</strong>: <%= user.slack.token %><br>
-                    </p>
-            </div>
-        </div>
-
         <!-- FACEBOOK INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Facebook</h3>
-                    <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                    </p>
+                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.facebook.token) { %>
+                <p>
+                    <strong>id</strong>: <%= user.facebook.id %><br>
+                    <strong>token</strong>: <%= user.facebook.token %><br>
+                    <strong>email</strong>: <%= user.facebook.email %><br>
+                    <strong>name</strong>: <%= user.facebook.name %><br>
+                </p>
+
+                <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
+                <% } else { %>
+                <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Slack INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-info"><span class="fa fa-twitter"></span> Slack</h3>
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.slack.token) { %>
+                <p>
+                    <strong>id</strong>: <%= user.slack.id %><br>
+                    <strong>token</strong>: <%= user.slack.token %><br>
+                </p>
+                <%}%>
+
             </div>
         </div>
 
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
 
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <% if (user.google.token) { %>
+                <p>
+                    <strong>id</strong>: <%= user.google.id %><br>
+                    <strong>token</strong>: <%= user.google.token %><br>
+                    <strong>email</strong>: <%= user.google.email %><br>
+                    <strong>name</strong>: <%= user.google.name %>
+                </p>
 
+                <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+                <% } else { %>
+                <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                <% } %>
+
+            </div>
+        </div>
     </div>
+
+
+
 
 </div>
 </body>
