@@ -37,7 +37,10 @@ module.exports = function(app, passport)
     // =====================================
     // SLACK ROUTES ========================
     // =====================================
-    app.get('/auth/slack', passport.authenticate('slack'));
+    app.get('/auth/slack', passport.authenticate('slack',
+        {
+            scope: ['users:read', 'emoji:read']
+        }));
 
     app.get('/auth/slack/callback',
         passport.authenticate('slack',
