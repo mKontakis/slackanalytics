@@ -5,7 +5,7 @@ module.exports =
     {
         'clientID'      : '45668073716-htaah8vqs4k5tf8ei3ag9iqseamtt2gv.apps.googleusercontent.com',
         'clientSecret'  : 'Tddw7zdDGw5V9SnxgQw95e0X',
-        'callbackURL'   : 'http://slackanalytics.com/auth/google/callback'
+        'callbackURL'   : 'http://slackanalytics.com/connect/google/callback'
     },
 
     'slackbotAuth' :
@@ -19,7 +19,7 @@ module.exports =
     {
         'clientID'      : '302437283460327', // your App ID
         'clientSecret'  : '11d7abf49b3f5948fb5e0b807024c799', // your App Secret
-        'callbackURL'   : 'http://slackanalytics.com/auth/facebook/callback'
+        'callbackURL'   : 'http://slackanalytics.com/connect/facebook/callback'
     }
 
 };
