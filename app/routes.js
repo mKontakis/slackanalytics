@@ -56,8 +56,7 @@ module.exports = function(app, passport)
 
     app.get('/connect/facebook', passport.authenticate('facebook',
         {
-            scope : ['email', 'manage_pages', 'publish_pages' ],
-            auth_type: 'reauthenticate'
+            scope : ['email', 'manage_pages', 'publish_pages' ]
         }));
 
     // handle the callback after facebook has authenticated the user
@@ -112,6 +111,11 @@ module.exports = function(app, passport)
         user.facebook = undefined;
         user.save(function(err)
         {
+            if (err)
+            {
+                console.log(err);
+            }
+
             res.redirect('/profile');
         });
     });
@@ -123,6 +127,11 @@ module.exports = function(app, passport)
         user.google = undefined ;
         user.save(function(err)
         {
+            if (err)
+            {
+                console.log(err);
+            }
+
             res.redirect('/profile');
         });
     });
@@ -134,6 +143,11 @@ module.exports = function(app, passport)
         user.twitter = undefined;
         user.save(function(err)
         {
+            if (err)
+            {
+                console.log(err);
+            }
+
             res.redirect('/profile');
         });
     });

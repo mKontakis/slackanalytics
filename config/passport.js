@@ -98,9 +98,7 @@ module.exports = function(passport)
             clientID        : configAuth.facebookAuth.clientID,
             clientSecret    : configAuth.facebookAuth.clientSecret,
             callbackURL     : configAuth.facebookAuth.callbackURL,
-            passReqToCallback : true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-            auth_type: 'reauthenticate'
-
+            passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         },
         // facebook will send back the token and profile
         function(req, token, refreshToken, profile, done)
