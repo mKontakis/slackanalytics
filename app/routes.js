@@ -56,7 +56,8 @@ module.exports = function(app, passport)
 
     app.get('/connect/facebook', passport.authenticate('facebook',
         {
-            scope : ['email', 'manage_pages', 'publish_pages' ]
+            scope : ['email', 'manage_pages', 'publish_pages' ],
+            authType : 'https'
         }));
 
     // handle the callback after facebook has authenticated the user
@@ -90,7 +91,11 @@ module.exports = function(app, passport)
     // =====================================
 
     // send to twitter to do the authentication
-    app.get('/connect/twitter', passport.authenticate('twitter', { scope : 'email' }));
+    app.get('/connect/twitter', passport.authenticate('twitter', {
+        scope : 'email',
+        forceLogin : 'true'
+    })
+    );
 
     // handle the callback after twitter has authenticated the user
     app.get('/connect/twitter/callback',
