@@ -32,6 +32,7 @@ var userSchema = mongoose.Schema(
         name         : String
     }
 
+
 });
 
 // methods ======================
