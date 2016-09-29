@@ -5993,7 +5993,7 @@ button.close {
   line-height: 1.42857143;
 }
 .modal-body {
-  color: #000; 
+  background-color: #000;
   position: relative;
   padding: 15px;
 }
