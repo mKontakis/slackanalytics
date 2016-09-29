@@ -1,3 +1,5 @@
+var listener = require('../app/listener');
+
 module.exports = function(app, passport)
 {
     // =====================================
@@ -78,8 +80,16 @@ module.exports = function(app, passport)
             scope : ['profile', 'email', 'https://www.googleapis.com/auth/analytics','https://www.googleapis.com/auth/analytics.edit']
         }));
 
+    app.get('/connect/localhost',
+        passport.authenticate('google', { failureRedirect: '/' }),
+        function(req, res) {
+            listener.loop();
+            res.redirect('/profile');
+
+        });
+
     // the callback after google has authenticated the user
-    app.get('/connect/google/callback', passport.authenticate('google',
+    app.get('/connect/localhost', passport.authenticate('google',
         {
             successRedirect : '/profile',
             failureRedirect : '/'

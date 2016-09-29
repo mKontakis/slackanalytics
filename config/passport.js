@@ -7,6 +7,7 @@ var refresh = require('passport-oauth2-refresh');
 
 // load up the user model
 var User = require('../app/models/user');
+var UserSession = require('../app/models/userSession');
 
 // load the auth variables
 var configAuth = require('./auth');
@@ -72,7 +73,7 @@ module.exports = function(passport)
                             newUser.slack.id    = profile.id;
                             newUser.slack.token = accessToken;
                             newUser.slack.teamId  = refreshToken;
-                            newUser.slack.name = profile; // pull the first email
+                         //   newUser.slack.name = profile; // pull the first email
 
                             // save the user
                             newUser.save(function(err)
@@ -81,6 +82,16 @@ module.exports = function(passport)
                                     throw err;
                                 return done(null, newUser);
                             });
+
+                            // var userSession = new UserSession();
+                            // userSession.name = "asdasda";
+                            // userSession.save(function(err)
+                            // {
+                            //     console.log("DEBUG #1");
+                            //     if (err)
+                            //         throw err;
+                            //     return done(null, userSession);
+                            // });
                         }
                     });
                 });
@@ -203,7 +214,6 @@ module.exports = function(passport)
                                 //user.google.name  = profile.displayName;
                                 user.google.refreshToken = refreshToken;
                                 //user.google.email = profile.emails[0].value; // pull the first email
-
                                 user.save(function(err)
                                 {
                                     if (err)
@@ -223,6 +233,12 @@ module.exports = function(passport)
                             //newUser.google.name  = profile.displayName;
                             //newUser.google.email = profile.emails[0].value; // pull the first email
 
+                            module.exports.AccessToken = token;
+                            module.exports.RefreshToken = refreshToken;
+                            // module.exports.userInfo = function () {
+                            //     return newUser;
+                            // }
+                            //Save function saves user to database (?How?)
                             newUser.save(function(err)
                             {
                                 if (err)
@@ -240,6 +256,13 @@ module.exports = function(passport)
                     user.google.id    = profile.id;
                     user.google.token = token;
                     user.google.refreshToken = refreshToken;
+
+                    //Exporting user information
+                    module.exports.UserInfo = {
+                        AccessToken: token,
+                        RefreshToken: refreshToken
+                    }
+
                     //user.google.name  = profile.displayName;
                     //user.google.email = profile.emails[0].value; // pull the first email
 
