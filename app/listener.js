@@ -16,10 +16,6 @@ var REDIRECT_URL = 'http://localhost/auth/google/callback';
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
-oauth2Client.setCredentials({
-    access_token: User.AccessToken,
-    refresh_token: User.RefreshToken
-});
 
 // Create an eventEmitter object
 var eventEmitter = new events.EventEmitter();
@@ -38,8 +34,8 @@ eventEmitter.on('testTrigger', usersTriggerHandler);
 var loop = function() {
     //Provide the tokens to the oauth object
     oauth2Client.setCredentials({
-        access_token: User.AccessToken,
-        refresh_token: User.RefreshToken
+        access_token: User.UserInfo.AccessToken,
+        refresh_token: User.UserInfo.RefreshToken
     });
     //Call queryData function every 5 seconds
     setInterval(queryData, 5000, analytics);
@@ -60,7 +56,6 @@ function queryData(analytics)
             return;
         }
 
-        console.log("DEBUG #5");
         console.log(response);
     })
     eventEmitter.emit('testTrigger');
