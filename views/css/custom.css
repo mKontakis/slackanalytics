@@ -1,0 +1,163 @@
+/****** PLACE YOUR CUSTOM STYLES HERE ******/
+
+#upgradeBtn {
+    box-shadow: rgb(0, 181, 173) 0px 0px 0px 1px inset;
+    box-sizing: border-box;
+    color: rgb(0, 181, 173);
+    cursor: pointer;
+    height: 36px;
+    left: 0px;
+    min-height: 14px;
+    min-width: auto;
+    position: relative;
+    right: 0px;
+    text-align: center;
+    text-decoration: none;
+    text-size-adjust: 100%;
+    top: 0px;
+    width: 114.266px;
+    column-rule-color: rgb(0, 181, 173);
+    align-self: center;
+    perspective-origin: 57.125px 18px;
+    transform-origin: 57.125px 18px;
+    border: 0px none rgb(0, 181, 173);
+    border-radius: 4px 4px 4px 4px;
+    font: normal normal normal normal 14px / 14px Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    outline: rgb(0, 181, 173) none 0px;
+    padding: 11px 21px;
+    transition: opacity 0.1s ease 0s, background-color 0.1s ease 0s, color 0.1s ease 0s, box-shadow 0.1s ease 0s, background 0.1s ease 0s;
+    opacity: 1;!important
+}
+
+#slackBtn {
+    background-position: 51px 50%;
+    box-shadow: rgba(255, 221, 42, 0.6) 0px 13px 34px 0px;
+    box-sizing: border-box;
+    color: rgb(179, 140, 18);
+    display: block;
+    height: 58px;
+    letter-spacing: 1px;
+    text-align: left;
+    text-decoration: none;
+    text-size-adjust: 100%;
+    width: 250px;
+    z-index: 0;
+    column-rule-color: rgb(179, 140, 18);
+    perspective-origin: 125px 29px;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    transform-origin: 125px 29px;
+    background: rgb(243, 228, 57) url("https://daks2k3a4ib2z.cloudfront.net/579e9f8fa28cd5494b32c94c/579e9f8fa28cd5494b32c9ba_black%20slack.svg") no-repeat scroll 51px 50% / auto padding-box border-box;
+    border: 0px solid rgb(179, 155, 32);
+    border-radius: 94px 94px 94px 94px;
+    font: normal normal bold normal 16px / 22px Lato, sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    outline: rgb(179, 140, 18) none 0px;
+    padding: 18px 60px 18px 86px;
+    transition: background-color 0.3s ease 0s, box-shadow 0.3s ease 0s, color 0.3s ease 0s, opacity 0.9s ease 0s, transform 0.9s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+}
+
+.toggle {
+    opacity: 0.5;!important
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -ms-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+}
+
+.rightMenu {
+  width: 100%;
+  height: 55px;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.rightMenu > li {
+  margin-right: 0px;
+  float: left;
+  position: relative;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  opacity: 1;
+}
+
+#dropdownBtn {
+    background-color: transparent;!important
+    font-size: 14px;
+    border:0px;!important
+    outline:0px;!important
+    
+    
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.870588);
+    cursor: pointer;
+    display: block;
+    height: 14px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-size-adjust: 100%;
+    column-rule-color: rgba(0, 0, 0, 0.870588);
+    align-self: center;
+    font: normal normal bold normal 14px / 14px Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+#removeMargin {
+  margin: 0px;!important
+}
+
+#slackDropdown{
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.870588);
+    cursor: pointer;
+    display: block;
+    height: 14px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-size-adjust: 100%;
+    width: 87.5312px;
+    column-rule-color: rgba(0, 0, 0, 0.870588);
+    align-self: center;
+    perspective-origin: 43.7656px 7px;
+    transform-origin: 43.7656px 7px;
+    border: 0px none rgba(0, 0, 0, 0.870588);
+    font: normal normal bold normal 14px / 14px Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    outline: rgba(0, 0, 0, 0.870588) none 0px;
+}
+
+.wellImage{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.fillHeight{
+    height: 100vh;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.bg-primary .btn:hover {
+    color: #fff;
+    background-color: #2f558c;
+}
+
+.leadLabel {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+#dropdownBtn.btn.btn-default.dropdown-toggle:active{
+    
+    box-shadow: 0 0 0 0 transparent;!important
+    
+}
+
+.active{
+    opacity: 1;!important
+}
