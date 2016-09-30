@@ -81,7 +81,7 @@ module.exports = function(app, passport)
     // the callback after google has authenticated the user
     app.get('/connect/google/callback', passport.authenticate('google',
         {
-            successRedirect : '/profile',
+            successRedirect : '/profile?ga_setup=true#',
             failureRedirect : '/'
         }));
 
