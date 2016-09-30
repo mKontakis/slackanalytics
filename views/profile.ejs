@@ -17,7 +17,7 @@
         <nav class="absolute transparent">
             <div class="nav-bar">
                 <div class="module left">
-                    <a href="index.html">
+                    <a href="/">
                         <img class="logo logo-light" alt="Bot" src="img/logo-light.png" />
                     </a>
                 </div>
@@ -110,9 +110,11 @@
                     <hr />
 
                     <% if (user.facebook.token) { %>
-                      <a class="btn btn-primary" data-toggle="modal" data-target="#fbModal">Configure</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#faModal">
+                            Configure
+                        </button>
                     <% } else { %>
-                      <a href="/connect/facebook" class="btn btn-primary">Connect</a>
+                         <a href="/connect/facebook" class="btn btn-primary">Connect</a>
                     <% } %>
 
                 </div>
@@ -165,29 +167,30 @@
 
 <!--            Facebook Setup Modal-->
             <!-- Modal -->
-            <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="fbModalLabel">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h1 class="modal-title" id="fbModalLabel">Tokens</h1>
-                  </div>
-                  <div class="modal-body">
-                  <% if (user.facebook.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                    </p>
-                    <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-                    <% } else { %>
-                    <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
-                 <% } %>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                  </div>
+            <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                        </div>
+                        <div class="modal-body">
+                            <% if (user.google.token) { %>
+                            <p>
+                                <strong>id</strong>: <%= user.google.id %><br>
+                                <strong>token</strong>: <%= user.google.token %><br>
+                                <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
+                            </p>
+                            <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+                            <% } else { %>
+                            <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
 <!--            Twitter Setup Modal-->
