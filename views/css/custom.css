@@ -146,10 +146,6 @@ box-sizing: border-box;
     background-color: #2f558c;
 }
 
-.bg-primary h3, .bg-primary p {
-    color: #292929;!important
-}
-
 .leadLabel {
     font-size: 28px;
     font-weight: 600;
@@ -231,10 +227,12 @@ border: 2px solid #b3c2c7;!important
 .modal-body > h1{
     font-size: 24px;
     margin-bottom: 5px;
+    color: #292929;!important;
 }
 
 .modal-header > h3{
     font-weight: 600;!important
+    color: #292929;!important;
 }
 
 .modal-body > p{
