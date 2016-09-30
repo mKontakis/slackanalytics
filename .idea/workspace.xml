@@ -4,6 +4,7 @@
     <list default="true" id="d753ddc1-bec4-4e65-b6ac-b2eac308ae83" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/css/custom.css" afterPath="$PROJECT_DIR$/views/css/custom.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
     </list>
     <ignored path="slackanalytics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,16 +37,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/profile.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="155" column="48" selection-start-line="155" selection-start-column="48" selection-end-line="155" selection-end-column="48" />
+            <state relative-caret-position="290">
+              <caret line="164" column="43" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
               <folding>
-                <element signature="e#7180#7186#0#HTML" expanded="true" />
-                <element signature="e#7187#7193#0#HTML" expanded="true" />
+                <element signature="e#7200#7206#0#HTML" expanded="true" />
+                <element signature="e#7207#7213#0#HTML" expanded="true" />
                 <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1475248834000" expanded="false" signature="10942:10949" ph="×" />
+                <marker date="1475249776000" expanded="false" signature="10976:10983" ph="×" />
               </folding>
             </state>
           </provider>
@@ -71,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/css/custom.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-578">
-              <caret line="146" column="1" selection-start-line="146" selection-start-column="1" selection-end-line="146" selection-end-column="1" />
+            <state relative-caret-position="532">
+              <caret line="253" column="30" selection-start-line="253" selection-start-column="30" selection-end-line="253" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -117,10 +118,10 @@
         <option value="&lt;ca67f59f-9247-40cc-abb4-7f2ab1306582&gt;/var/www/html/slackanalytics/views/profile.ejs" />
         <option value="$PROJECT_DIR$/app/routes.js" />
         <option value="$PROJECT_DIR$/views/js/scripts.js" />
-        <option value="$PROJECT_DIR$/views/profile.ejs" />
         <option value="$PROJECT_DIR$/views/css/bootstrap.css" />
         <option value="$PROJECT_DIR$/views/css/theme-hyperblue.css" />
         <option value="$PROJECT_DIR$/views/css/custom.css" />
+        <option value="$PROJECT_DIR$/views/profile.ejs" />
       </list>
     </option>
   </component>
@@ -382,14 +383,7 @@
       <workItem from="1475101696996" duration="2347000" />
       <workItem from="1475142895940" duration="10000" />
       <workItem from="1475145586294" duration="3496000" />
-      <workItem from="1475184979808" duration="15271000" />
-    </task>
-    <task id="LOCAL-00004" summary="Added Social Media Integration, Sub/Unsub, Changed Views">
-      <created>1474898521297</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1474898521297</updated>
+      <workItem from="1475184979808" duration="15422000" />
     </task>
     <task id="LOCAL-00005" summary="Added Social Media Integration, Sub/Unsub, Changed Views">
       <created>1474899320381</created>
@@ -727,11 +721,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475249490755</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Modal Functionality">
+      <created>1475249640959</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1475249640960</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36992000" />
+    <option name="totallyTimeSpent" value="37143000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="31" y="22" width="1342" height="801" extended-state="0" />
@@ -815,10 +816,10 @@
         <state relative-caret-position="2565">
           <caret line="171" column="18" selection-start-line="171" selection-start-column="18" selection-end-line="171" selection-end-column="18" />
           <folding>
-            <element signature="e#7180#7186#0#HTML" expanded="true" />
-            <element signature="e#7187#7193#0#HTML" expanded="true" />
+            <element signature="e#7200#7206#0#HTML" expanded="true" />
+            <element signature="e#7207#7213#0#HTML" expanded="true" />
             <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1475248834000" expanded="false" signature="10942:10949" ph="×" />
+            <marker date="1475249776000" expanded="false" signature="10976:10983" ph="×" />
           </folding>
         </state>
       </provider>
@@ -860,10 +861,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#7180#7186#0#HTML" expanded="true" />
-            <element signature="e#7187#7193#0#HTML" expanded="true" />
+            <element signature="e#7200#7206#0#HTML" expanded="true" />
+            <element signature="e#7207#7213#0#HTML" expanded="true" />
             <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1475248834000" expanded="false" signature="10942:10949" ph="×" />
+            <marker date="1475249776000" expanded="false" signature="10976:10983" ph="×" />
           </folding>
         </state>
       </provider>
@@ -897,10 +898,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#7180#7186#0#HTML" expanded="true" />
-            <element signature="e#7187#7193#0#HTML" expanded="true" />
+            <element signature="e#7200#7206#0#HTML" expanded="true" />
+            <element signature="e#7207#7213#0#HTML" expanded="true" />
             <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1475248834000" expanded="false" signature="10942:10949" ph="×" />
+            <marker date="1475249776000" expanded="false" signature="10976:10983" ph="×" />
           </folding>
         </state>
       </provider>
@@ -1026,19 +1027,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/profile.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="155" column="48" selection-start-line="155" selection-start-column="48" selection-end-line="155" selection-end-column="48" />
-          <folding>
-            <element signature="e#7180#7186#0#HTML" expanded="true" />
-            <element signature="e#7187#7193#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1475248834000" expanded="false" signature="10942:10949" ph="×" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -1057,9 +1045,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-578">
-          <caret line="146" column="1" selection-start-line="146" selection-start-column="1" selection-end-line="146" selection-end-column="1" />
+        <state relative-caret-position="532">
+          <caret line="253" column="30" selection-start-line="253" selection-start-column="30" selection-end-line="253" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/profile.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="164" column="43" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
+          <folding>
+            <element signature="e#7200#7206#0#HTML" expanded="true" />
+            <element signature="e#7207#7213#0#HTML" expanded="true" />
+            <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#4;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1475249776000" expanded="false" signature="10976:10983" ph="×" />
+          </folding>
         </state>
       </provider>
     </entry>

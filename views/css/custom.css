@@ -232,7 +232,6 @@ border: 2px solid #b3c2c7;!important
 
 .modal-header > h3{
     font-weight: 600;!important
-    color: #292929;!important;
 }
 
 .modal-body > p{
@@ -251,7 +250,9 @@ form > p{
     color: #292929;!important;
 }
 
-
+.black{
+    color: #292929;!important;
+}
 
 
 .ui.divider:not(.vertical):not(.horizontal) {

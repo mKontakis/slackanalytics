@@ -151,18 +151,18 @@
                             <button type="button" class="close" data-dismiss="modal">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </button>
-                            <h3 class="modal-title" id="lineModalLabel">Configuration</h3>
+                            <h3 class="modal-title black" id="lineModalLabel">Configuration</h3>
                         </div>
                         <div class="modal-body">
                             <% if (user.google.token) { %>
-                            <h1> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
+                            <h1 class="black"> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
                                 <span class="btn-group">
                                <button class="btn btn-warning btn-sm noPadding" href="connect/google">Reconnect</button>
                                  <button class="btn btn-danger btn-sm noPadding" href="/logout">Disconnect</button>
                                 </span>
                             </h1>
 
-                            <p>
+                            <p class="black">
                                 <i class="fa fa-life-ring" aria-hidden="true"></i>
                                 Didn't see GA profile you want to connect in the list below? Connect another Google Analytics account.
                             </p>
