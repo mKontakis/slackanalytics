@@ -110,9 +110,7 @@
                     <hr />
 
                     <% if (user.facebook.token) { %>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fbModal">
-                          Configure
-                      </button>
+                      <a class="btn btn-primary" data-toggle="modal" data-target="#fbModal">Configure</a>
                     <% } else { %>
                       <a href="/connect/facebook" class="btn btn-primary">Connect</a>
                     <% } %>
@@ -127,15 +125,15 @@
                     <hr/>
 
                     <% if (user.twitter.token) { %>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal" >
-                          Configure
-                      </button>
+                        <a href="/connect/twiter" class="btn btn-primary" data-toggle="modal" data-target="#fbModal">Configure</a>
                     <% } else { %>
-                        <a href="/connect/facebook" class="btn btn-primary">Connect</a>
+                        <a href="/connect/twitter" class="btn btn-primary">Connect</a>
                     <% } %>
 
                 </div>
             </div>
+
+            <img class="center-block wellImage" width="333" height="85" src="./img/tw-logo.png" />
 
 <!--            Google Setup Modal-->
             <!-- Modal -->
