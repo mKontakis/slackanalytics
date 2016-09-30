@@ -4,7 +4,6 @@
     <list default="true" id="d753ddc1-bec4-4e65-b6ac-b2eac308ae83" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/img/tw-logo.png" afterPath="$PROJECT_DIR$/views/img/tw-logo.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
     </list>
     <ignored path="slackanalytics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,8 +29,8 @@
       <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/profile.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="173" column="30" selection-start-line="173" selection-start-column="30" selection-end-line="173" selection-end-column="30" />
+            <state relative-caret-position="335">
+              <caret line="175" column="54" selection-start-line="175" selection-start-column="54" selection-end-line="175" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -303,7 +302,7 @@
       <workItem from="1475101696996" duration="2347000" />
       <workItem from="1475142895940" duration="10000" />
       <workItem from="1475145586294" duration="3496000" />
-      <workItem from="1475184979808" duration="5613000" />
+      <workItem from="1475184979808" duration="6098000" />
     </task>
     <task id="LOCAL-00001" summary="changed profile view">
       <created>1474893691702</created>
@@ -536,11 +535,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475222415243</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Updated Front-End">
+      <created>1475223337881</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1475223337881</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27334000" />
+    <option name="totallyTimeSpent" value="27819000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="31" y="22" width="1342" height="801" extended-state="0" />
@@ -821,8 +827,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/profile.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="173" column="30" selection-start-line="173" selection-start-column="30" selection-end-line="173" selection-end-column="30" />
+        <state relative-caret-position="335">
+          <caret line="175" column="54" selection-start-line="175" selection-start-column="54" selection-end-line="175" selection-end-column="54" />
           <folding />
         </state>
       </provider>
