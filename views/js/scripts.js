@@ -6,7 +6,7 @@ $('ul>li>a').hover(function(){
 
 $(document).ready(function() {
 
-    if(window.location.href.indexOf('#gaModal') != -1) {
+    if(window.location.href.indexOf('ga_setup=true#') != -1) {
         $('#gaModal').modal('show');
     }
 
