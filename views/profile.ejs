@@ -122,20 +122,20 @@
 
             <div class="col-sm-3">
                 <div class="well shadow">
-                    <img class="center-block wellImage" width="333" height="85" src="./img/tw-logo.png" />
+                    <img class="center-block wellImage" width="333" alt="adsd" height="85" src="./img/tw-logo.png" />
 
                     <hr/>
 
                     <% if (user.twitter.token) { %>
-                        <a href="/connect/twiter" class="btn btn-primary" data-toggle="modal" data-target="#fbModal">Configure</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal">
+                            Configure
+                        </button>
                     <% } else { %>
                         <a href="/connect/twitter" class="btn btn-primary">Connect</a>
                     <% } %>
 
                 </div>
             </div>
-
-            <img class="center-block wellImage" width="333" height="85" src="./img/tw-logo.png" />
 
 <!--            Google Setup Modal-->
             <!-- Modal -->
@@ -155,7 +155,7 @@
                     </p>
                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
                     <% } else { %>
-                    <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                    <a href="/connect/google" class="btn btn-danger">Connect</a>
                  <% } %>
                   </div>
                   <div class="modal-footer">
@@ -181,9 +181,9 @@
                                 <strong>token</strong>: <%= user.google.token %><br>
                                 <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
                             </p>
-                            <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+                            <a href="/unlink/facebook" class="btn btn-danger">Unlink</a>
                             <% } else { %>
-                            <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                            <a href="/connect/facebook" class="btn btn-danger">Connect</a>
                             <% } %>
                         </div>
                         <div class="modal-footer">
@@ -195,31 +195,30 @@
 
 <!--            Twitter Setup Modal-->
             <!-- Modal -->
-            <div class="modal fade" id="twModal" tabindex="-1" role="dialog" aria-labelledby="twModalLabel">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h1 class="modal-title" id="twModalLabel">Tokens</h1>
-                  </div>
-                  <div class="modal-body">
-                  <% if (user.twitter.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.twitter.id %><br>
-                        <strong>token</strong>: <%= user.twitter.token %><br>
-                        <strong>display name</strong>: <%= user.twitter.displayName %><br>
-                        <strong>username</strong>: <%= user.twitter.username %>
-                    </p>
-                    <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
-                    <% } else { %>
-                    <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
-                  <% } %>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                  </div>
+            <div class="modal fade" id="twModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                        </div>
+                        <div class="modal-body">
+                            <% if (user.google.token) { %>
+                            <p>
+                                <strong>id</strong>: <%= user.google.id %><br>
+                                <strong>token</strong>: <%= user.google.token %><br>
+                                <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
+                            </p>
+                            <a href="/unlink/twitter" class="btn btn-danger">Unlink</a>
+                            <% } else { %>
+                            <a href="/connect/twitter" class="btn btn-danger">Connect</a>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
 
