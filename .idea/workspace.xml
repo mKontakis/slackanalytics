@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d753ddc1-bec4-4e65-b6ac-b2eac308ae83" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/img/tw-logo.png" afterPath="$PROJECT_DIR$/views/img/tw-logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/img/twitter-logo.png" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/img/ga-logo.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/img/tw-logo.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
     </list>
@@ -37,15 +39,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tw-logo.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/img/tw-logo.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ga-logo.psd" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/img/ga-logo.psd">
+      <file leaf-file-name="twitter-logo.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/img/twitter-logo.png">
           <provider selected="true" editor-type-id="images">
             <state />
           </provider>
@@ -293,7 +288,7 @@
       <workItem from="1475101696996" duration="2347000" />
       <workItem from="1475142895940" duration="10000" />
       <workItem from="1475145586294" duration="3496000" />
-      <workItem from="1475184979808" duration="7364000" />
+      <workItem from="1475184979808" duration="7844000" />
     </task>
     <task id="LOCAL-00001" summary="changed profile view">
       <created>1474893691702</created>
@@ -547,11 +542,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475224807828</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Updated Front-End">
+      <created>1475225180130</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1475225180130</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29085000" />
+    <option name="totallyTimeSpent" value="29565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="31" y="22" width="1342" height="801" extended-state="0" />
@@ -825,7 +827,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/img/tw-logo.png">
+    <entry file="file://$PROJECT_DIR$/views/img/twitter-logo.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
