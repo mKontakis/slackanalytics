@@ -146,6 +146,10 @@ box-sizing: border-box;
     background-color: #2f558c;
 }
 
+.bg-primary h3, .bg-primary p {
+    color: #292929;!important
+}
+
 .leadLabel {
     font-size: 28px;
     font-weight: 600;
@@ -244,10 +248,12 @@ h1 > .btn-group > button{
 }
 
 form > p{
-    font-size: 24px;
-    font-weight: 600;
-    color: #292929;
+    font-size: 24px;!important;
+    font-weight: 600;!important;
+    color: #292929;!important;
 }
+
+
 
 
 .ui.divider:not(.vertical):not(.horizontal) {
