@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d753ddc1-bec4-4e65-b6ac-b2eac308ae83" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/img/twitter-logo.png" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/views/img/ga-logo.psd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/views/img/tw-logo.png" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/img/twitter-logo.png" afterPath="$PROJECT_DIR$/views/img/topwide.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
     </list>
@@ -32,15 +30,15 @@
       <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/profile.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="126" column="25" selection-start-line="126" selection-start-column="25" selection-end-line="126" selection-end-column="25" />
+            <state relative-caret-position="290">
+              <caret line="124" column="67" selection-start-line="124" selection-start-column="67" selection-end-line="124" selection-end-column="67" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="twitter-logo.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/img/twitter-logo.png">
+      <file leaf-file-name="topwide.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/img/topwide.png">
           <provider selected="true" editor-type-id="images">
             <state />
           </provider>
@@ -288,7 +286,7 @@
       <workItem from="1475101696996" duration="2347000" />
       <workItem from="1475142895940" duration="10000" />
       <workItem from="1475145586294" duration="3496000" />
-      <workItem from="1475184979808" duration="7844000" />
+      <workItem from="1475184979808" duration="8042000" />
     </task>
     <task id="LOCAL-00001" summary="changed profile view">
       <created>1474893691702</created>
@@ -549,18 +547,25 @@
       <option name="project" value="LOCAL" />
       <updated>1475225180130</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Updated Front-End">
+      <created>1475225766583</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1475225766583</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29565000" />
+    <option name="totallyTimeSpent" value="29763000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="31" y="22" width="1342" height="801" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17958272" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962743" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962743" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -827,15 +832,15 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/img/twitter-logo.png">
+    <entry file="file://$PROJECT_DIR$/views/img/topwide.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/profile.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="126" column="25" selection-start-line="126" selection-start-column="25" selection-end-line="126" selection-end-column="25" />
+        <state relative-caret-position="290">
+          <caret line="124" column="67" selection-start-line="124" selection-start-column="67" selection-end-line="124" selection-end-column="67" />
           <folding />
         </state>
       </provider>
