@@ -63,7 +63,7 @@ module.exports = function(app, passport)
     // handle the callback after facebook has authenticated the user
     app.get('/connect/facebook/callback', passport.authenticate('facebook',
         {
-            successRedirect : '/profile',
+            successRedirect : '/profile?fb_setup=true#',
             failureRedirect : '/'
         }));
 
@@ -101,7 +101,7 @@ module.exports = function(app, passport)
     app.get('/connect/twitter/callback',
         passport.authenticate('twitter',
         {
-            successRedirect : '/profile',
+            successRedirect : '/profile?tw_setup=true#',
             failureRedirect : '/'
         }));
 

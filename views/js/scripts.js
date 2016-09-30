@@ -10,4 +10,12 @@ $(document).ready(function() {
         $('#gaModal').modal('show');
     }
 
+    if(window.location.href.indexOf('fb_setup=true#') != -1) {
+        $('#faModal').modal('show');
+    }
+
+    if(window.location.href.indexOf('tw_setup=true#') != -1) {
+        $('#twModal').modal('show');
+    }
+
 });

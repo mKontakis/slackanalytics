@@ -144,29 +144,72 @@
 
 <!--            Google Setup Modal-->
             <!-- Modal -->
-            <div class="modal fade" id="gaModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
-                  </div>
-                  <div class="modal-body">
-                  <% if (user.google.token) { %>
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
-                    </p>
-                    <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                    <% } %>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                  </div>
+
+            <div class="modal fade" id="gaModal" style="display: block !important; top: 0px;">
+                <div class="header">Configure</div>
+                <div class="content">
+                    <p style="font-size: 20px">
+                        <i class="fa fa-check-square"></i>Connected&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-primary" href="/connect/google" style="margin-right:15px;">reconnect</a>
+                        <a data-confirm="Are you sure?" class="btn btn-warning" rel="nofollow" href="/unlink/google">Disconnect</a></p>
+                    <p class="sub"><i class="fa fa-info"></i>Didn't see GA profile you want to connect in the list below? Connect another Google Analytics account.</p>
+                    <div class="divider"></div>
+                    <form>
+                        <input name="utf8" type="hidden" value="✓">
+                        <input type="hidden" value="ga" name="integration[kind]" id="integration_kind">
+                        <input type="hidden" name="integration[ga_account_id]" id="integration_ga_account_id" value="">
+                        <input type="hidden" name="integration[ga_property_id]" id="integration_ga_property_id" value="">
+                        <p style="font-size: 20px"><i class="fa fa-hand-o-down"></i>Please select default account</p>
+                        <div class="form-group">
+                            <select class="form-control select2-hidden-accessible" id="ga-view" name="integration[ga_view]" required="" style="width: 100%" tabindex="-1" aria-hidden="true">
+                                <option disabled="" hidden="" value="">Select default Google Analytics profile</option>
+                                <optgroup label="bou.kons">
+                                    <option value="ga:128782136">Slack Analytics - All Web Site Data</option>
+                                </optgroup>
+                                <optgroup label="Demo Account (Beta)">
+                                    <option value="ga:92320289">Google Merchandise Store - 1 Master View</option>
+                                    <option value="ga:92324711">Google Merchandise Store - 2 Test View</option>
+                                    <option value="ga:90822334">Google Merchandise Store - 3 Raw Data View</option>
+                                </optgroup><optgroup label="Slackanalytics Challenge">
+                                    <option value="ga:129070637">Slackanalytics Demo - All Web Site Data</option>
+                                </optgroup></select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 100%;">
+                                <span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-ga-view-container">
+                                        <span class="select2-selection__rendered" id="select2-ga-view-container" title="Select default Google Analytics profile">Select default Google Analytics profile</span>
+                                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span>
+                                <span class="dropdown-wrapper" aria-hidden="true"></span></span></div><br>
+                        <p class="help-block">
+                            <i class="icon info"></i>You can also setup multiple<a href="https://statsbot.groovehq.com/knowledge_base/topics/how-do-i-setup-multiple-google-analytics-accounts" target="_blank">Google Analytics accounts on per channel basis</a>
+                        </p>
+                        <div class="centered">
+                            <input type="submit" name="commit" value="Save" class="ui button teal" style="width: 144px" data-disable-with="Saving...">
+                        </div>
+                    </form>
                 </div>
-              </div>
             </div>
+
+            <!--<div class="modal fade" id="gaModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">-->
+              <!--<div class="modal-dialog" role="document">-->
+                <!--<div class="modal-content">-->
+                  <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                    <!--<h1 class="modal-title" id="gaModalLabel">Tokens</h1>-->
+                  <!--</div>-->
+                  <!--<div class="modal-body">-->
+                  <!--<% if (user.google.token) { %>-->
+                    <!--<p>-->
+                        <!--<strong>id</strong>: <%= user.google.id %><br>-->
+                        <!--<strong>token</strong>: <%= user.google.token %><br>-->
+                        <!--<strong>refreshToken</strong>: <%= user.google.refreshToken %><br>-->
+                    <!--</p>-->
+                    <!--<a href="/unlink/google" class="btn btn-danger">Unlink</a>-->
+                    <!--<% } %>-->
+                  <!--</div>-->
+                  <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
 
 <!--            Facebook Setup Modal-->
             <!-- Modal -->
