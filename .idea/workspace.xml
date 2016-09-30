@@ -74,8 +74,8 @@
       <file leaf-file-name="theme-hyperblue.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/css/theme-hyperblue.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+            <state relative-caret-position="208">
+              <caret line="411" column="6" selection-start-line="411" selection-start-column="2" selection-end-line="411" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -84,8 +84,8 @@
       <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/css/custom.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="773">
-              <caret line="242" column="1" selection-start-line="242" selection-start-column="1" selection-end-line="242" selection-end-column="1" />
+            <state relative-caret-position="473">
+              <caret line="247" column="18" selection-start-line="247" selection-start-column="12" selection-end-line="247" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -392,14 +392,7 @@
       <workItem from="1475101696996" duration="2347000" />
       <workItem from="1475142895940" duration="10000" />
       <workItem from="1475145586294" duration="3496000" />
-      <workItem from="1475184979808" duration="16680000" />
-    </task>
-    <task id="LOCAL-00009" summary="Added Social Media Integration, Sub/Unsub, Changed Views">
-      <created>1474901237122</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1474901237122</updated>
+      <workItem from="1475184979808" duration="16847000" />
     </task>
     <task id="LOCAL-00010" summary="Added Social Media Integration, Sub/Unsub, Changed Views">
       <created>1474901444194</created>
@@ -737,11 +730,18 @@
       <option name="project" value="LOCAL" />
       <updated>1475250418416</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Modal Functionality">
+      <created>1475251091018</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1475251091019</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38401000" />
+    <option name="totallyTimeSpent" value="38568000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="31" y="22" width="1342" height="801" extended-state="0" />
@@ -1036,14 +1036,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/css/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="773">
-          <caret line="242" column="1" selection-start-line="242" selection-start-column="1" selection-end-line="242" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -1073,10 +1065,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="247" column="18" selection-start-line="247" selection-start-column="12" selection-end-line="247" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/css/theme-hyperblue.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+        <state relative-caret-position="208">
+          <caret line="411" column="6" selection-start-line="411" selection-start-column="2" selection-end-line="411" selection-end-column="6" />
           <folding />
         </state>
       </provider>

@@ -608,7 +608,6 @@ footer.bg-dark h6,
 .bg-dark p,
 nav.bg-dark p,
 footer.bg-dark p,
-.bg-primary p,
 .bg-dark span,
 nav.bg-dark span,
 footer.bg-dark span,
@@ -617,7 +616,7 @@ footer.bg-dark span,
 nav.bg-dark li,
 footer.bg-dark li,
 .bg-primary li {
-  color: #292929;
+  color: #fff;
 }
 @media all and (max-width: 767px) {
   section {
@@ -635,6 +634,11 @@ footer.bg-dark li,
   opacity: 0.3;
   z-index: 2;
 }
+
+.bg-primary p{
+  color: #292929;
+}
+
 .overlay-heavy:before {
   opacity: .6;
 }
