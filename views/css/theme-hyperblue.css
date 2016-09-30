@@ -722,14 +722,14 @@ footer.bg-dark li,
 /*!---------- 6. BUTTONS ----------*/
 .btn {
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-/*  border: 2px solid #3b3be8;*/
+  /*  border: 2px solid #3b3be8;*/
   padding: 0 26px;
   height: 40px;
   min-width: 150px;
   line-height: 36px;
   font-size: 14px;
   font-weight: 500;
-/*  text-transform: uppercase;*/
+  /*  text-transform: uppercase;*/
   letter-spacing: 1px;
   border-radius: 15px;
   color: #fff;
@@ -745,13 +745,13 @@ footer.bg-dark li,
 }
 .btn:last-child,
 .btn:last-of-type {
-/*  margin-right: 0;*/
+  /*  margin-right: 0;*/
 }
 .btn:hover {
-/*
-  background: #3b3be8;
-  color: #fff;
-*/
+  /*
+    background: #3b3be8;
+    color: #fff;
+  */
 }
 .btn-icon {
   width: 40px;
@@ -829,7 +829,7 @@ body.btn-rounded .btn {
   color: #fff;
 }
 .btn:visited {
-/*  color: #3b3be8;*/
+  /*  color: #3b3be8;*/
 }
 .btn-white:visited,
 .btn:visited:hover {
@@ -955,23 +955,23 @@ nav.bg-dark .logo-dark {
 }
 .menu li a {
   font-size: 14px;
-/*  text-transform: uppercase;*/
+  /*  text-transform: uppercase;*/
   font-weight: 600;
   letter-spacing: 1px;
   color: #292929;
-/*  opacity: 0.5;*/
+  /*  opacity: 0.5;*/
   -webkit-transition: opacity .5s ease-in-out;
-    -moz-transition: opacity .5s ease-in-out;
-    -ms-transition: opacity .5s ease-in-out;
-    -o-transition: opacity .5s ease-in-out;
-    transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -ms-transition: opacity .5s ease-in-out;
+  -o-transition: opacity .5s ease-in-out;
+  transition: opacity .5s ease-in-out;
   max-width: 100%;
   white-space: normal;
-    
+
 }
 .menu li a:hover {
   opacity: 1 !important;
-    
+
 }
 .menu > li {
   margin-right: 32px;
@@ -1520,7 +1520,7 @@ nav.transparent .module.widget-handle {
 }
 nav.transparent .menu > li > a,
 nav.transparent .module.widget-handle i {
-/*  opacity: 1;*/
+  /*  opacity: 1;*/
 }
 nav.transparent .has-dropdown:after {
   color: #fff;
