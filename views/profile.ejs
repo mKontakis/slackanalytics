@@ -154,9 +154,7 @@
                         <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
                     </p>
                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                    <% } else { %>
-                    <a href="/connect/google" class="btn btn-danger">Connect</a>
-                 <% } %>
+                    <% } %>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -175,15 +173,13 @@
                             <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
                         </div>
                         <div class="modal-body">
-                            <% if (user.google.token) { %>
+                            <% if (user.facebook.token) { %>
                             <p>
-                                <strong>id</strong>: <%= user.google.id %><br>
-                                <strong>token</strong>: <%= user.google.token %><br>
-                                <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
+                                <strong>id</strong>: <%= user.facebook.id %><br>
+                                <strong>token</strong>: <%= user.facebook.token %><br>
+                                <strong>name</strong>: <%= user.facebook.name %><br>
                             </p>
                             <a href="/unlink/facebook" class="btn btn-danger">Unlink</a>
-                            <% } else { %>
-                            <a href="/connect/facebook" class="btn btn-danger">Connect</a>
                             <% } %>
                         </div>
                         <div class="modal-footer">
@@ -203,15 +199,13 @@
                             <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
                         </div>
                         <div class="modal-body">
-                            <% if (user.google.token) { %>
+                            <% if (user.twitter.token) { %>
                             <p>
-                                <strong>id</strong>: <%= user.google.id %><br>
-                                <strong>token</strong>: <%= user.google.token %><br>
-                                <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
+                                <strong>id</strong>: <%= user.twitter.id %><br>
+                                <strong>token</strong>: <%= user.twitter.token %><br>
+                                <strong>username</strong>: <%= user.twitter.username %><br>
                             </p>
                             <a href="/unlink/twitter" class="btn btn-danger">Unlink</a>
-                            <% } else { %>
-                            <a href="/connect/twitter" class="btn btn-danger">Connect</a>
                             <% } %>
                         </div>
                         <div class="modal-footer">
@@ -226,18 +220,6 @@
     </div>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-<!--
-    <script src="js/flickr.js"></script>
-    <script src="js/flexslider.min.js"></script>
-    <script src="js/lightbox.min.js"></script>
-    <script src="js/masonry.min.js"></script>
-    <script src="js/twitterfetcher.min.js"></script>
-    <script src="js/spectragram.min.js"></script>
-    <script src="js/ytplayer.min.js"></script>
-    <script src="js/countdown.min.js"></script>
-    <script src="js/smooth-scroll.min.js"></script>
-    <script src="js/parallax.js"></script>
--->
     <script src="/js/scripts.js"></script>
 </body>
 </html>
