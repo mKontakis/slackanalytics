@@ -80,8 +80,13 @@
         <section class="bg-primary pb0 fillHeight container-fluid">
 
             <div class="col-sm-12">
-                <h2 class="leadLabel"> My Integrations<div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
- You haven’t hooked any integrations yet. Please select below.</div></h2>
+                <h2 class="leadLabel"> My Integrations
+                    <% if (user.google.token) { %>
+                    <div class="sub"><i class="fa fa-check-square" aria-hidden="true"></i> You have hooked Google Analytics successfully. Huzzah!</div>
+                    <% } else { %>
+                        <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> You haven’t hooked Google Analytics yet. Please select below.</div>
+                    <% } %>
+                </h2>
             </div>
 
             <div class="col-sm-3">
