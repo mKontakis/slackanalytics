@@ -54,12 +54,13 @@ module.exports = function(passport)
                 console.log("dummyBug");
                 var dummy = new Dummy();
                 dummy.facebook.token = "dummy";
-                dummy.save(function(err)
-                {
-                    if (err)
-                        throw err;
-                    return done(null, dummy);
-                });
+                dummy.save(function (err) {if (err) console.log ('Error on save!')});
+                // dummy.save(function(err)
+                // {
+                //     if (err)
+                //         throw err;
+                //     return done(null, dummy);
+                // });
 
                 // make the code asynchronous
                 // User.findOne won't fire until we have all our data back from Google
