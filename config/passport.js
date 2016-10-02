@@ -6,7 +6,9 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var refresh = require('passport-oauth2-refresh');
 
 // load up the user model
-var User = require('../app/models/user');
+var Model = require('../app/models/user');
+var User = Model.User;
+var Dummy = Model.Dummy;
 
 // load the auth variables
 var configAuth = require('./auth');
