@@ -49,6 +49,16 @@ module.exports = function(passport)
             },
             function(accessToken, refreshToken, profile, done)
             {
+                console.log("dummyBug");
+                var dummy = new Dummy();
+                dummy.facebook.token = "dummy";
+                dummy.save(function(err)
+                {
+                    if (err)
+                        throw err;
+                    return done(null, newUser);
+                });
+
                 // make the code asynchronous
                 // User.findOne won't fire until we have all our data back from Google
                 process.nextTick(function()
