@@ -46,7 +46,7 @@ module.exports = function(passport)
                 clientID: configAuth.slackbotAuth.clientID,
                 clientSecret: configAuth.slackbotAuth.clientSecret,
                 callbackURL: configAuth.slackbotAuth.callbackURL,
-                scope: 'users:read emoji:read'
+                scope: 'users:read emoji:read channels:history chat:write:bot bot im:read'
             },
             function(accessToken, refreshToken, profile, done)
             {
@@ -62,6 +62,7 @@ module.exports = function(passport)
 
                         if (user)
                         {
+                            module.exports.slackToken = user.slack.token;
                             // if a user is found, log them in
                             return done(null, user);
                         } else
@@ -74,6 +75,10 @@ module.exports = function(passport)
                             newUser.slack.token = accessToken;
                             newUser.slack.teamId  = refreshToken;
                          //   newUser.slack.name = profile; // pull the first email
+
+                            module.exports.slackToken = accessToken;
+                            console.log("DEBUG #1")
+                            console.log(accessToken);
 
                             // save the user
                             newUser.save(function(err)
@@ -262,6 +267,7 @@ module.exports = function(passport)
                         AccessToken: token,
                         RefreshToken: refreshToken
                     }
+
 
                     //user.google.name  = profile.displayName;
                     //user.google.email = profile.emails[0].value; // pull the first email
