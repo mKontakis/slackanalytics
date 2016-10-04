@@ -6,8 +6,13 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var refresh = require('passport-oauth2-refresh');
 
 // load up the user model
+
 var User = require('../app/models/user');
 var UserSession = require('../app/models/userSession');
+var Model = require('../app/models/user');
+var User = Model.User;
+var Dummy = Model.Dummy;
+
 
 // load the auth variables
 var configAuth = require('./auth');
@@ -50,6 +55,17 @@ module.exports = function(passport)
             },
             function(accessToken, refreshToken, profile, done)
             {
+                console.log("dummyBug");
+                var dummy = new Dummy();
+                dummy.facebook.token = "dummy";
+                dummy.save(function (err) {if (err) console.log ('Error on save!')});
+                // dummy.save(function(err)
+                // {
+                //     if (err)
+                //         throw err;
+                //     return done(null, dummy);
+                // });
+
                 // make the code asynchronous
                 // User.findOne won't fire until we have all our data back from Google
                 process.nextTick(function()

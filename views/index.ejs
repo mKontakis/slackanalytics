@@ -1,26 +1,82 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
+    <meta charset="utf-8">
+    <title>Slackanalytics Newsbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/themify-icons.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/theme-hyperblue.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7CRaleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div class="container">
+    <div class="nav-container">
+        <a id="top"></a>
+        <nav class="absolute transparent">
+            <div class="nav-bar">
+                <div class="module left">
+                    <a href="/">
+                        <img class="logo logo-light" alt="Foundry" src="img/logo-light.png" />
+                    </a>
+                </div>
+                <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
+                    <i class="ti-menu"></i>
+                </div>
+                <div class="module-group right">
+                    <div class="module left">
+                        <ul class="menu">
+                            <li >
+                                <a href="/">
+                                    Help
+                                </a>
+                            </li>
+                            <li >
+                                <a href="/auth/slack?scope=identity.basic,identity.email,identity.team,identity.avatar&client_id=74006495490.83331616626">
+                                    Sign In
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span> Node Authentication</h1>
-
-
-        <a href="/auth/slack"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
-
-        <a href="/auth/slack?scope=identity.basic,identity.email,identity.team,identity.avatar&client_id=74006495490.83331616626"><img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>
-
+                </div>
+            </div>
+        </nav>
     </div>
+    <div class="main-container">
+        <section class="bg-primary pb0">
 
-</div>
+            <div class="container pt80">
+                <div class="row mb24 mb-xs-0">
+                    <div class="col-sm-10 col-sm-offset-1 text-center">
+
+                        <h1 class="large">Google Analytics, Facebook, Twitter <br />slackbot for news editors</h1>
+
+                        <h3 class="lead">
+                            Observes published news-stories, <br /> delivers reader analytics to the editor and circulates stories to social media.
+                        </h3>
+
+                    </div>
+                </div>
+                <!--end of row-->
+                <div class="row mb80 mb-xs-24">
+                    <div class="col-sm-10 col-sm-offset-1 text-center">
+
+                         <a href="/auth/slack" id="slackBtn">Add to Slack</a>
+
+                    </div>
+                </div>
+                <!--end of row-->
+                <div class="row">
+                    <img alt="image" src="img/app1.png" />
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+
+        </section>
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

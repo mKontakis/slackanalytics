@@ -40,7 +40,7 @@ var usersTriggerHandler = function invokeSlackbot(response)
 }
 
 function getUsers() {
-    UserModel.find({}, function (err, users) {
+    UserModel.User.find({}, function (err, users) {
         var userMap = users;
         //For each user in the database do:
         //User is passed automatically to postMessage from the iteration.

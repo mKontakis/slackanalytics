@@ -1,111 +1,265 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body        { padding-top:80px; word-wrap:break-word; }
-    </style>
+    <meta charset="utf-8">
+    <title>Slackanalytics Newsbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/themify-icons.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/theme-hyperblue.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7CRaleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div class="container">
+<div class="nav-container">
+    <a id="top"></a>
+    <nav class="absolute transparent">
+        <div class="nav-bar">
+            <div class="module left">
+                <a href="/">
+                    <img class="logo logo-light" alt="Bot" src="img/logo-light.png" />
+                </a>
+            </div>
+            <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
+                <i class="ti-menu"></i>
+            </div>
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
+            <div class="module-group left">
+                <div class="module left">
+                    <ul class="menu">
+                        <li >
+                            <a href="#">
+                                Alerts
+                            </a>
+                        </li>
+                        <li >
+                            <a href="#">
+                                Integrations
+                            </a>
+                        </li>
+                        <li >
+                            <a href="#">
+                                Help
+                            </a>
+                        </li>
+                        <li >
+                            <a href="#">
+                                Billing
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-    <div class="row">
+            <div class="module-group right">
+                <div class="module right">
+                    <ul class="rightMenu">
+                        <li>
+                            <a href="#" id="upgradeBtn"><i class="fa fa-star" aria-hidden="true"></i>Upgrade</a>
+                        </li>
+                        <div class="btn-group">
+                            <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-slack" aria-hidden="true"></i> slackanalyticsteam <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Change Team</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </div>
 
-        <!-- Slack INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-info"><span class="fa fa-twitter"></span> Slack</h3>
+        </div>
+    </nav>
+</div>
+
+<div class="main-container">
+    <section class="bg-primary pb0 fillHeight container-fluid">
+
+        <div class="col-sm-12">
+            <h2 class="leadLabel"> My Integrations
+                <% if (user.google.token) { %>
+                <div class="sub"><i class="fa fa-check-square" aria-hidden="true"></i> You have hooked Google Analytics successfully. Huzzah!</div>
+                <% } else { %>
+                <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> You haven’t hooked Google Analytics yet. Please select below.</div>
+                <% } %>
+            </h2>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="well shadow">
+                <img class="center-block wellImage" width="200" height="85" src="./img/ga-logo.png" />
 
                 <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.slack.token) { %>
-                <p>
-                    <strong>id</strong>: <%= user.slack.id %><br>
-                    <strong>token</strong>: <%= user.slack.token %><br>
-                </p>
-                <%}%>
+                <hr/>
+
+                <% if (user.google.token) { %>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gaModal">
+                    Configure
+                </button>
+                <% } else { %>
+                <a href="/connect/google" class="btn btn-primary">Connect</a>
+                <% } %>
 
             </div>
         </div>
 
-        <!-- TWITTER INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-info"><span class="fa fa-twitter"></span> Twitter</h3>
+        <div class="col-sm-3">
+            <div class="well shadow">
+                <img class="center-block wellImage" width="170" height="85" src="./img/fa-logo.png" />
+
+                <!-- check if the user has this token (is the user authenticated with this social account) -->
+                <hr />
+
+                <% if (user.facebook.token) { %>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#faModal">
+                    Configure
+                </button>
+                <% } else { %>
+                <a href="/connect/facebook" class="btn btn-primary">Connect</a>
+                <% } %>
+
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="well shadow">
+                <img class="center-block wellImage" width="333" height="85" src="img/topwide.png" />
+
+                <hr/>
 
                 <% if (user.twitter.token) { %>
-                <p>
-                    <strong>id</strong>: <%= user.twitter.id %><br>
-                    <strong>token</strong>: <%= user.twitter.token %><br>
-                    <strong>display name</strong>: <%= user.twitter.displayName %><br>
-                    <strong>username</strong>: <%= user.twitter.username %>
-                </p>
-                <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal">
+                    Configure
+                </button>
                 <% } else { %>
-                <a href="/connect/twitter" class="btn btn-info">Connect Twitter</a>
+                <a href="/connect/twitter" class="btn btn-primary">Connect</a>
                 <% } %>
 
             </div>
         </div>
 
-    </div>
+        <!--            Google Setup Modal-->
+        <!-- Modal -->
+        <div class="modal fade" id="gaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                        <h4 class="modal-title " id="lineModalLabel">Configuration</h4>
+                    </div>
+                    <div class="modal-body">
+                        <% if (user.google.token) { %>
+                        <h1> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
+                            <span class="btn-group">
+                                    <button class="btn btn-warning btn-sm noPadding" href="/unlink/google">Reconnect</button>
+                                    <button class="btn btn-danger btn-sm noPadding" href="/logout">Disconnect</button>
+                                </span>
+                        </h1>
 
-    <div class="row">
+                        <p>
+                            <i class="fa fa-life-ring" aria-hidden="true"></i>
+                            Didn't see GA profile you want to connect in the list below? Connect another Google Analytics account.
+                        </p>
+                        <div class="ui divider"></div>
 
-        <!-- FACEBOOK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.facebook.token) { %>
-                <p>
-                    <strong>id</strong>: <%= user.facebook.id %><br>
-                    <strong>token</strong>: <%= user.facebook.token %><br>
-                </p>
-
-                <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-                <% } else { %>
-                <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
-                <% } %>
-
+                        <form data-integration-name="ga" id="new_integration" action="/google/update" accept-charset="UTF-8" data-remote="true" method="post">
+                            <input type="hidden" value="ga" name="integration[kind]" id="integration_kind">
+                            <input type="hidden" name="integration[ga_account_id]" id="integration_ga_account_id" value="">
+                            <input type="hidden" name="integration[ga_property_id]" id="integration_ga_property_id" value="">
+                            <p>
+                                <i class="fa fa-hand-o-down"></i>Please select default account
+                            </p>
+                            <div class="form-group">
+                                <select class="form-control" id="ga-view" name="integration[ga_view]" required="" style="width: 100%" tabindex="-1" aria-hidden="true">
+                                    <option disabled="" hidden="" value="">Select default Google Analytics profile</option>
+                                    <optgroup label="bou.kons">
+                                        <option value="ga:128782136">Slack Analytics - All Web Site Data</option>
+                                    </optgroup>
+                                    <optgroup label="Demo Account (Beta)">
+                                        <option value="ga:92320289">Google Merchandise Store - 1 Master View</option>
+                                        <option value="ga:92324711">Google Merchandise Store - 2 Test View</option>
+                                        <option value="ga:90822334">Google Merchandise Store - 3 Raw Data View</option>
+                                    </optgroup>
+                                    <optgroup label="Slackanalytics Challenge">
+                                        <option value="ga:129070637">Slackanalytics Demo - All Web Site Data</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google Analytics</h3>
 
-                <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.google.token) { %>
-                <p>
-                    <strong>id</strong>: <%= user.google.id %><br>
-                    <strong>token</strong>: <%= user.google.token %><br>
-                    <strong>refreshToken</strong>: <%= user.google.refreshToken %><br>
-
-                    <div id="divResults">
-                        <%- include('./analytics'); %>
-                     </div>
-
-                </p>
-
-
-                <a href="/unlink/google" class="btn btn-danger">Unlink</a>
-                <% } else { %>
-                <a href="/connect/google" class="btn btn-danger">Connect Google</a>
-                <% } %>
-
+        <!--            Facebook Setup Modal-->
+        <!-- Modal -->
+        <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                    </div>
+                    <div class="modal-body">
+                        <% if (user.facebook.token) { %>
+                        <p>
+                            <strong>id</strong>: <%= user.facebook.id %><br>
+                            <strong>token</strong>: <%= user.facebook.token %><br>
+                            <strong>name</strong>: <%= user.facebook.name %><br>
+                        </p>
+                        <a href="/unlink/facebook" class="btn btn-danger">Unlink</a>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
+        <!--            Twitter Setup Modal-->
+        <!-- Modal -->
+        <div class="modal fade" id="twModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                    </div>
+                    <div class="modal-body">
+                        <% if (user.twitter.token) { %>
+                        <p>
+                            <strong>id</strong>: <%= user.twitter.id %><br>
+                            <strong>token</strong>: <%= user.twitter.token %><br>
+                            <strong>username</strong>: <%= user.twitter.username %><br>
+                        </p>
+                        <a href="/unlink/twitter" class="btn btn-danger">Unlink</a>
+                        <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
 </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/scripts.js"></script>
 </body>
 </html>
