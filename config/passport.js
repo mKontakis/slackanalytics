@@ -15,7 +15,7 @@ var Dummy = Model.Dummy;
 
 
 // load the auth variables
-var configAuth = require('./auth');
+var configAuth = require('./authLocal');
 
 // expose this function to our app using module.exports
 module.exports = function(passport)

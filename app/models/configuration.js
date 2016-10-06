@@ -4,15 +4,23 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var configurationSchema = mongoose.Schema({
-        configuration  : {
-            viewsUpperLimit : String,
-            viewsLowerLimit : String
+    userId: String,
+    botConfiguration  : {
+        trigger : {
+            viewsUpperLimit : Number,
+            viewsLowerLimit : Number
+        }
+    },
+    google : {
+        dimensions : {
+
         },
         metrics : {
-            pageViews : String,
-            uniquePageViews : String,
-            entrances : String
+            pageViews : Boolean,
+            uniquePageViews : Boolean,
+            entrances : Boolean
         }
+    }
     }
 );
 

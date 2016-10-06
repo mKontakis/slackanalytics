@@ -35,7 +35,7 @@ var usersTriggerHandler = function invokeSlackbot(response)
 {
     console.log(response);
   //  postMessage();
-    getUsers();
+   // getUsers();
 
 }
 
@@ -169,10 +169,37 @@ function postMessage(response, channelId, token, callback) {
 eventEmitter.on('testTrigger', usersTriggerHandler);
 
 
-var loop = function(res) {
-    //Call queryData function every 5 seconds
-    setInterval(getUsers, 8000);
+var loop = function() {
+
+    var i = new Interval(getUsers, 8000);
+    console.log(i.isRunning());
+    if (i.isRunning()) {
+        console.log("IS RUNNING");
+    } else {
+        console.log("START");
+
+        i.start();
+        console.log(i.isRunning());
+    }
+
 }
+
+function Interval(fn, time) {
+    var timer = false;
+    this.start = function () {
+        if (!this.isRunning())
+            timer = setInterval(fn, time);
+    };
+    this.stop = function () {
+        clearInterval(timer);
+        timer = false;
+    };
+    this.isRunning = function () {
+        return timer !== false;
+    };
+}
+
+
 //Exporting loop function
 exports.loop = loop;
 
@@ -186,7 +213,7 @@ function refreshTokenFunc(refreshToken) {
         } else {
             //Update the database through mongoose given using the refresh token as index.
             //Refresh tokens are unique per user and they dont expire .
-            UserModel.update(
+            UserModel.User.update(
                     { "google.refreshToken": refreshToken },
                     {"$set": { "google.token": tokens.access_token}},
                     {multi: false},

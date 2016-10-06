@@ -65,6 +65,8 @@ module.exports = function(app, passport)
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res)
     {
+
+        listener.loop();
         res.render('profile.ejs',
             {
                 user : req.user // get the user out of session and pass to template
@@ -140,7 +142,6 @@ module.exports = function(app, passport)
     app.get('/connect/localhost',
         passport.authenticate('google', { failureRedirect: '/' }),
         function(req, res) {
-            listener.loop(res);
             res.redirect('/profile');
 
         });
