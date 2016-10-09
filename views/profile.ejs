@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
     <title>Slackanalytics Newsbot</title>
@@ -10,6 +10,7 @@
     <link href="/css/theme-hyperblue.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400%7CRaleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
 <body>
 <div class="nav-container">
@@ -76,7 +77,7 @@
     </nav>
 </div>
 
-<div class="main-container">
+<div class="main-container" ng-controller="Test">
     <section class="bg-primary pb0 fillHeight container-fluid">
 
         <div class="col-sm-12">
@@ -157,8 +158,8 @@
                         <% if (user.google.token) { %>
                         <h1> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
                             <span class="btn-group">
-                                    <a class="btn btn-warning btn-sm noPadding" href="/unlink/google">Reconnect</a>
-                                    <a class="btn btn-danger btn-sm noPadding" href="/logout">Disconnect</a>
+                                    <a class="btn btn-warning btn-sm noPadding" href="/connect/google">Reconnect</a>
+                                    <a class="btn btn-danger btn-sm noPadding" href="/unlink/google">Disconnect</a>
                                 </span>
                         </h1>
 
@@ -168,30 +169,11 @@
                         </p>
                         <div class="ui divider"></div>
 
-                        <form data-integration-name="ga" id="new_integration" action="/google/update" accept-charset="UTF-8" data-remote="true" method="post">
-                            <input type="hidden" value="ga" name="integration[kind]" id="integration_kind">
-                            <input type="hidden" name="integration[ga_account_id]" id="integration_ga_account_id" value="">
-                            <input type="hidden" name="integration[ga_property_id]" id="integration_ga_property_id" value="">
-                            <p>
-                                <i class="fa fa-hand-o-down"></i>Please select default account
-                            </p>
-                            <div class="form-group">
-                                <select class="form-control" id="ga-view" name="integration[ga_view]" required="" style="width: 100%" tabindex="-1" aria-hidden="true">
-                                    <option disabled="" hidden="" value="">Select default Google Analytics profile</option>
-                                    <optgroup label="bou.kons">
-                                        <option value="ga:128782136">Slack Analytics - All Web Site Data</option>
-                                    </optgroup>
-                                    <optgroup label="Demo Account (Beta)">
-                                        <option value="ga:92320289">Google Merchandise Store - 1 Master View</option>
-                                        <option value="ga:92324711">Google Merchandise Store - 2 Test View</option>
-                                        <option value="ga:90822334">Google Merchandise Store - 3 Raw Data View</option>
-                                    </optgroup>
-                                    <optgroup label="Slackanalytics Challenge">
-                                        <option value="ga:129070637">Slackanalytics Demo - All Web Site Data</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </form>
+                        <select ng-model="selectedTestAccount"
+                                ng-options="item for item in testAccounts">
+                            <option value="">Select Account</option>
+                        </select>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">
@@ -258,6 +240,7 @@
 
     </section>
 </div>
+
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/scripts.js"></script>

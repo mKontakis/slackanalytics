@@ -21,6 +21,6 @@
     "passport-local": "~0.1.6",
     "passport-oauth2-refresh": "^1.0.0",
     "passport-twitter": "~1.0.2",
-    "request": "~2.75.1"
+    "request": "~2.75.0"
   }
 }

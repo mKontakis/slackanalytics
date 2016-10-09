@@ -29,11 +29,12 @@ TODO List:
 // Create an eventEmitter object
 var eventEmitter = new events.EventEmitter();
 
+
 // Function that triggers on emmit
 //Maybe redundant
 var usersTriggerHandler = function invokeSlackbot(response)
 {
-    console.log(response);
+   // console.log(response);
   //  postMessage();
    // getUsers();
 
@@ -53,7 +54,7 @@ function getUsers() {
                     async.apply(queryData, userMap[key].google.token, userMap[key].google.refreshToken),
                     postMessage
                 ], function (err, results) {
-                    console.log(results);
+                   // console.log(results);
                 }
             )
 
@@ -98,7 +99,7 @@ function listChannels(slackToken, callback) {
 
 // Query function declearation
 function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
-    console.log("Google Refresh Token: " + refreshToken);
+    //console.log("Google Refresh Token: " + refreshToken);
     //Provide the tokens to the oauth object
     oauth2Client.setCredentials({
         access_token: googleToken,
@@ -128,7 +129,7 @@ function postMessage(response, channelId, token, callback) {
         //Debug
         // console.log('Slack TOken: ' + token);
         // console.log('Channel ID: ' + channelId);
-         console.log(response);
+        //  console.log(response);
          //Setting the request properties
         var propertiesObject = {
             token: token,
@@ -143,7 +144,7 @@ function postMessage(response, channelId, token, callback) {
             },
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    console.log(body);
+                    // console.log(body);
                     callback(null, 'Message sent');
                 } else {
                     console.log(error);
@@ -225,7 +226,7 @@ function refreshTokenFunc(refreshToken) {
                         }
                     }
             );
-            console.log("New google access token: " + tokens.access_token);
+           // console.log("New google access token: " + tokens.access_token);
         }
     })
 }

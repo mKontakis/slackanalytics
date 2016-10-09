@@ -55,17 +55,6 @@ module.exports = function(passport)
             },
             function(accessToken, refreshToken, profile, done)
             {
-                console.log("dummyBug");
-                var dummy = new Dummy();
-                dummy.facebook.token = "dummy";
-                dummy.save(function (err) {if (err) console.log ('Error on save!')});
-                // dummy.save(function(err)
-                // {
-                //     if (err)
-                //         throw err;
-                //     return done(null, dummy);
-                // });
-
                 // make the code asynchronous
                 // User.findOne won't fire until we have all our data back from Google
                 process.nextTick(function()
@@ -90,11 +79,7 @@ module.exports = function(passport)
                             newUser.slack.id    = profile.id;
                             newUser.slack.token = accessToken;
                             newUser.slack.teamId  = refreshToken;
-                         //   newUser.slack.name = profile; // pull the first email
-
-                            module.exports.slackToken = accessToken;
-                            console.log("DEBUG #1")
-                            console.log(accessToken);
+                            //   newUser.slack.name = profile; // pull the first email
 
                             // save the user
                             newUser.save(function(err)
@@ -103,16 +88,6 @@ module.exports = function(passport)
                                     throw err;
                                 return done(null, newUser);
                             });
-
-                            // var userSession = new UserSession();
-                            // userSession.name = "asdasda";
-                            // userSession.save(function(err)
-                            // {
-                            //     console.log("DEBUG #1");
-                            //     if (err)
-                            //         throw err;
-                            //     return done(null, userSession);
-                            // });
                         }
                     });
                 });
