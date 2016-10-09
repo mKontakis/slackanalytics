@@ -5,7 +5,10 @@ var async = require('async');
 
 var google = require('googleapis');
 var analytics = google.analytics('v3');
+var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
+
+var Batchelor = require('batchelor');
 
 var UserModel = require('../app/models/user');
 
@@ -98,12 +101,26 @@ function listChannels(slackToken, callback) {
 
 // Query function declearation
 function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
-    console.log("Google Refresh Token: " + refreshToken);
+   // console.log("Google Refresh Token: " + refreshToken);
     //Provide the tokens to the oauth object
     oauth2Client.setCredentials({
         access_token: googleToken,
         refresh_token: refreshToken
     });
+    //Request body for the batch request
+    var req = {
+        "viewId":"129070637",
+        "dateRanges":[
+            {
+                "startDate":"2015-06-15",
+                "endDate":"2016-10-06"
+            }],
+        "metrics":[
+            {
+                "expression":"ga:pageviews"
+            }]
+    };
+
 
     analytics.management.accountSummaries.list({
         auth: oauth2Client
@@ -116,11 +133,29 @@ function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
             return;
         }
 
+        analyticsReporting.reports.batchGet( {
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "auth": oauth2Client,
+            "resource": {
+                "reportRequests": req
+            }
+        }, function (err, results) {
+            if (err) {
+                //TODO: Be smarter about that
+                console.log(err.code);
+            } else {
+                //Treat the response properly.
+                console.log(results.reports[0].data.totals[0].values[0]);
+
+              //  console.log(JSON.parse(results));
+            }
+        })
+
         //Returning data to the waterfall to be passed deeper in the call hierarchy
         callback(null, response, slackToken, channelId);
-
     })
-
 }
 
 //Posts stuff to slack
@@ -128,7 +163,7 @@ function postMessage(response, channelId, token, callback) {
         //Debug
         // console.log('Slack TOken: ' + token);
         // console.log('Channel ID: ' + channelId);
-         console.log(response);
+        // console.log(response);
          //Setting the request properties
         var propertiesObject = {
             token: token,
@@ -144,12 +179,18 @@ function postMessage(response, channelId, token, callback) {
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     console.log(body);
-                    callback(null, 'Message sent');
+                  //  callback(null, 'Message sent');
                 } else {
                     console.log(error);
                     callback(error);
                 }
             });
+}
+
+function handleReportingResults(results) {
+    if (!results.code) {
+        console.log(results);
+    }
 }
 
 // function executeFunctions() {

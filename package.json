@@ -3,6 +3,7 @@
   "main": "server.js",
   "dependencies": {
     "async": "^2.0.1",
+    "batchelor": "^2.0.1",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
     "bson": "latest",
@@ -22,5 +23,11 @@
     "passport-oauth2-refresh": "^1.0.0",
     "passport-twitter": "~1.0.2",
     "request": "~2.75.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-util": "^3.0.7",
+    "jshint-stylish": "^2.2.1"
   }
 }
