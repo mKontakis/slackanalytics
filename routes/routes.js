@@ -3,9 +3,38 @@ var Configuration = require('../app/models/configuration');
 var request = require('request');
 
 var User = require('../app/models/user');
+var googleTap = require('../app/models/googleTap');
 
 module.exports = function(app, passport)
 {
+
+    // =====================================
+    // GET GA VIEWS FOR DROP DOWN ==========
+    // =====================================
+    app.get('/profile/views', function(req, res)
+    {
+
+        googleTap.getAccountSummariesList(req.user, function (err, data)
+        {
+
+            data.items.forEach(function(item, index)
+            {
+                var webProp = item.webProperties[0];
+                console.log(webProp.name);
+
+                console.log();
+               //    console.log(item.webProperties.  + "\n --<>-- \n");
+                // `item` is the next item in the array
+                // `index` is the numeric position in the array, e.g. `array[index] == item`
+            });
+
+            res.send(data);
+        });
+
+
+    });
+
+
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
@@ -15,7 +44,8 @@ module.exports = function(app, passport)
     });
 
     //Slack events router
-    app.post('/', function(req, res) {
+    app.post('/', function(req, res)
+    {
         console.log(req.body);
         //Slack event API handshake - https://api.slack.com/events-api
         if (req.body.challenge) {
@@ -23,7 +53,8 @@ module.exports = function(app, passport)
         }
         if (!req.body || !req.body.event){
             return res.sendStatus(400);
-        } else if (req.body.event.username !== 'NewsTed'){
+        } else if (req.body.event.username !== 'NewsTed')
+        {
             //Passing the user ID from the event API request.
             postMessage(req.body.event.user);
         }
@@ -32,9 +63,11 @@ module.exports = function(app, passport)
         res.end();
     });
 
-    function postMessage(userId) {
+    function postMessage(userId)
+    {
         //Retrieve slack token from database for the specific user
-        User.findOne({'slack.id': userId}, 'slack', function (err, user) {
+        User.findOne({'slack.id': userId}, 'slack', function (err, user)
+        {
             if (err) console.log(err);
             //Setting the request properties
             var propertiesObject = {

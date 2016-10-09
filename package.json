@@ -22,12 +22,14 @@
     "passport-local": "~0.1.6",
     "passport-oauth2-refresh": "^1.0.0",
     "passport-twitter": "~1.0.2",
-    "request": "~2.75.1"
+    "request": "~2.75.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.1",
+    "gulp-livereload": "^3.8.1",
     "gulp-util": "^3.0.7",
+    "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1"
   }
 }

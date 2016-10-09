@@ -5,7 +5,7 @@ module.exports =
     {
         'clientID'      : '45668073716-htaah8vqs4k5tf8ei3ag9iqseamtt2gv.apps.googleusercontent.com',
         'clientSecret'  : 'Tddw7zdDGw5V9SnxgQw95e0X',
-        'callbackURL'   : 'localhost'
+        'callbackURL'   : 'localhost/auth/google/callback'
     },
 
     'twitterAuth' : {
