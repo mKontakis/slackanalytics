@@ -1,3 +1,39 @@
+// AngularJS Initialise
+
+// // A module is created by using the AngularJS function angular.module
+// var app = angular.module("myApp", []);
+//
+// // app, controllers should be in different files
+// app.controller("myCtrl", function($scope)
+// {
+//     $scope.firstName = "John";
+//     $scope.lastName = "Doe";
+// });
+
+angular.module('app', []).controller('Test', function ($scope, $http)
+{
+    $scope.selectedTestAccount = null;
+    $scope.testAccounts = [];
+
+    $http({
+        method: 'GET',
+        url: '/profile/views',
+        data: { applicationId: 3 }
+    }).success(function (result)
+    {
+
+
+        $scope.testAccounts = result;
+    });
+});
+
+// var app = angular.module('app',[]);
+// app.controller('Test',function($scope){
+//     $scope.items = ['one','two','three','four']
+// });
+
+
+
 // Menu Hover effect
 $('ul>li>a').hover(function(){
  $('ul>li>a').not(this).toggleClass('toggle');

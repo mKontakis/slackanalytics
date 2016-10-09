@@ -32,11 +32,12 @@ TODO List:
 // Create an eventEmitter object
 var eventEmitter = new events.EventEmitter();
 
+
 // Function that triggers on emmit
 //Maybe redundant
 var usersTriggerHandler = function invokeSlackbot(response)
 {
-    console.log(response);
+   // console.log(response);
   //  postMessage();
    // getUsers();
 
@@ -56,7 +57,7 @@ function getUsers() {
                     async.apply(queryData, userMap[key].google.token, userMap[key].google.refreshToken),
                     postMessage
                 ], function (err, results) {
-                    console.log(results);
+                   // console.log(results);
                 }
             )
 
@@ -180,6 +181,8 @@ function postMessage(response, channelId, token, callback) {
                 if (!error && response.statusCode == 200) {
                     console.log(body);
                   //  callback(null, 'Message sent');
+                    // console.log(body);
+                    callback(null, 'Message sent');
                 } else {
                     console.log(error);
                     callback(error);

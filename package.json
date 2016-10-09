@@ -29,5 +29,6 @@
     "gulp-jshint": "^2.0.1",
     "gulp-util": "^3.0.7",
     "jshint-stylish": "^2.2.1"
+    "request": "~2.75.0"
   }
 }
