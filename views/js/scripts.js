@@ -21,8 +21,6 @@ angular.module('app', []).controller('Test', function ($scope, $http)
         data: { applicationId: 3 }
     }).success(function (result)
     {
-
-
         $scope.testAccounts = result;
     });
 });

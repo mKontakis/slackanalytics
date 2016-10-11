@@ -3,7 +3,7 @@ var Configuration = require('../app/models/configuration');
 var request = require('request');
 
 var User = require('../app/models/user');
-var googleTap = require('../app/models/googleTap');
+var googleTap = require('../app/googleTap');
 
 module.exports = function(app, passport)
 {
@@ -13,25 +13,15 @@ module.exports = function(app, passport)
     // =====================================
     app.get('/profile/views', function(req, res)
     {
-
         googleTap.getAccountSummariesList(req.user, function (err, data)
         {
-
+            var names = [];
             data.items.forEach(function(item, index)
             {
-                var webProp = item.webProperties[0];
-                console.log(webProp.name);
-
-                console.log();
-               //    console.log(item.webProperties.  + "\n --<>-- \n");
-                // `item` is the next item in the array
-                // `index` is the numeric position in the array, e.g. `array[index] == item`
+                names[index] = item.webProperties[0].name;
             });
-
-            res.send(data);
+            res.send(names);
         });
-
-
     });
 
 

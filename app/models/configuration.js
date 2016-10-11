@@ -20,7 +20,7 @@ var configurationSchema = mongoose.Schema({
             uniquePageViews : Boolean,
             entrances : Boolean
         }
-    }
+      }
     }
 );
 
