@@ -8,8 +8,6 @@ var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 
-var Batchelor = require('batchelor');
-
 var UserModel = require('../app/models/user');
 
 // Client ID and client secret are available at
