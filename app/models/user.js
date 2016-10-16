@@ -21,16 +21,33 @@ var userSchema = mongoose.Schema({
         token        : String,
         refreshToken : String,
         email        : String,
-        name         : String
+        name         : String,
+        view         : {
+            id       : String,
+            name     : String
+        }
     },
     slack            : {
         id           : String,
         token        : String,
+        team         : String,
         teamId       : String,
-        name         : String
-    }
-
-
+        user         : String,
+        name         : String,
+        channel: {
+            id       : String,
+            name     : String
+        }
+    },
+    reports: [{
+        reportId     : String,
+        period       : String,
+        prefChannel  : String,
+        when: {
+            interval : String,
+            time     : String
+        }
+    }]
 });
 
 // methods ======================
@@ -48,4 +65,3 @@ userSchema.methods.validPassword = function(password)
 
 // create the model for users and expose it to our app
 module.exports.User = mongoose.model('User', userSchema);
-

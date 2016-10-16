@@ -1,47 +1,16 @@
 var listener = require('../app/listener');
-var Configuration = require('../app/models/configuration');
 var request = require('request');
 
 var User = require('../app/models/user');
-var googleTap = require('../app/models/googleTap');
+var googleTap = require('../app/googleTap');
+var slackTap = require('../app/slackTap');
+var scheduler = require('../app/scheduler');
 
 module.exports = function(app, passport)
 {
-
     // =====================================
-    // GET GA VIEWS FOR DROP DOWN ==========
+    // USED FOR DEBUGGING PURPOSES =========
     // =====================================
-    app.get('/profile/views', function(req, res)
-    {
-
-        googleTap.getAccountSummariesList(req.user, function (err, data)
-        {
-
-            data.items.forEach(function(item, index)
-            {
-                var webProp = item.webProperties[0];
-                console.log(webProp.name);
-
-                console.log();
-               //    console.log(item.webProperties.  + "\n --<>-- \n");
-                // `item` is the next item in the array
-                // `index` is the numeric position in the array, e.g. `array[index] == item`
-            });
-
-            res.send(data);
-        });
-
-
-    });
-
-
-    // =====================================
-    // HOME PAGE (with login links) ========
-    // =====================================
-    app.get('/', function(req, res)
-    {
-        res.render('index.ejs'); // load the index.ejs file
-    });
 
     //Slack events router
     app.post('/', function(req, res)
@@ -90,34 +59,121 @@ module.exports = function(app, passport)
     }
 
 
+    // =====================================
+    // ROUTE INTERNAL POST REQUESTS ========
+    // =====================================
+
+    app.post('/newAlert', function(req, res, next)
+    {
+        //TODO Update report id
+        var report = {
+            reportId    : '123',
+            period      : req.body.period,
+            when: {
+                interval: req.body.interval,
+                time    : req.body.timeHour + ":" + req.body.timeMinute
+            }};
+
+        var dataSource;
+        if (typeof req.body.dataSource[0] == 'string') {
+            dataSource = req.body.dataSource[0].split(':')
+            req.user.google.view.id = dataSource[1];
+            req.user.google.view.name = dataSource[0];
+        } else {
+            dataSource = [];
+        }
+
+        req.user.reports.push(report);
+        req.user.save();
+
+        scheduler.createJob(report, req.user);
+
+    });
 
     // =====================================
-    // PROFILE SECTION =====================
+    // ROUTE INTERNAL GET REQUESTS =========
     // =====================================
+
+    // Populate Google Analytics Views drop-down
+    app.get('/profile/views', function(req, res)
+    {
+        googleTap.getAccountSummariesList(req.user, function (err, data)
+        {
+            var items = data.items;
+
+            res.send(items);
+        });
+    });
+
+
+    // =====================================
+    // ROUTE APP NAVIGATION ================
+    // =====================================
+
+    // Main Page
+    app.get('/', function(req, res)
+    {
+        res.render('pages/index.ejs');
+    });
+
+
+    // Alerts Page
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
+    app.get('/alerts', hasToken, function(req, res)
+    {
+        var slackChannels, googleViews;
+
+        slackTap.getSlackChannels(req.user, function (err, data)
+        {
+            slackChannels = data;
+
+            googleTap.getAccountSummariesList(req.user, function (err, data)
+            {
+                googleViews = data.items;
+
+                res.render('pages/alerts.ejs',
+                    {
+                        user         : req.user,
+                        items        : googleViews,
+                        channels     : slackChannels
+                    });
+            });
+
+        });
+
+    });
+
+
+    // Profile Page
     app.get('/profile', isLoggedIn, function(req, res)
     {
-
-        listener.loop();
-        res.render('profile.ejs',
-            {
-                user : req.user // get the user out of session and pass to template
-            });
+        res.render('pages/profile.ejs',
+        {
+            user : req.user, // get the user out of session and pass to template
+            //items: data.items
+        });
     });
 
-    app.post('/profile/googleinfo', function(req, res) {
-        console.log('DEBUG #1');
-        res.render('profile.ejs',
-            {
-                googledata :req.googledata
-            }
-        );
+    // Help Page
+    app.get('/help', isLoggedIn, function(req, res)
+    {
+        res.render('pages/help.ejs',
+        {
+            user : req.user // get the user out of session and pass to template
+        });
     });
 
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
+    // Billing Page
+    app.get('/billing', isLoggedIn, function(req, res)
+    {
+        res.render('pages/billing.ejs',
+        {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+
+    // Logout
     app.get('/logout', function(req, res)
     {
         req.logout();
@@ -135,10 +191,10 @@ module.exports = function(app, passport)
 
     app.get('/auth/slack/callback',
         passport.authenticate('slack',
-            {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+        {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
 
     // =============================================================================
     // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
@@ -149,17 +205,17 @@ module.exports = function(app, passport)
     // =====================================
 
     app.get('/connect/facebook', passport.authenticate('facebook',
-        {
-            scope : ['email', 'manage_pages', 'publish_pages' ],
-            authType : 'https'
-        }));
+    {
+        scope : ['email', 'manage_pages', 'publish_pages' ],
+        authType : 'https'
+    }));
 
     // handle the callback after facebook has authenticated the user
     app.get('/connect/facebook/callback', passport.authenticate('facebook',
-        {
-            successRedirect : '/profile?fb_setup=true#',
-            failureRedirect : '/'
-        }));
+    {
+        successRedirect : '/profile?fb_setup=true#',
+        failureRedirect : '/'
+    }));
 
     // =====================================
     // GOOGLE AUTHORIZE ROUTES =============
@@ -179,12 +235,6 @@ module.exports = function(app, passport)
 
         });
 
-    // the callback after google has authenticated the user
-    // app.get('/connect/localhost', passport.authenticate('google',
-    //     {
-    //         successRedirect : '/profile',
-    //         failureRedirect : '/'
-    //     }));
     app.get('/connect/google/callback', passport.authenticate('google',
         {
             successRedirect : '/profile?ga_setup=true#',
@@ -263,26 +313,11 @@ module.exports = function(app, passport)
         });
     });
 
-    //Route to catch user configuration
-    app.post('/profile/conf', function (req, res) {
-        var conf = new Configuration();
-        conf.configuration.viewsUpperLimit = req.body.viewsUpperLimit;
-        conf.configuration.viewsLowerLimit = req.body.viewsLowerLimit;
-        console.log(conf.viewsUpperLimit);
-        //Save function saves user to database (?How?)
-        conf.save(function(err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('success');
-                }
-            });
-        res.send('200');
-    });
-
 };
 
-
+// =============================================================================
+// UNLINK AND DELETE SOCIAL ACCOUNTS FROM SLACK USER ===========================
+// =============================================================================
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next)
@@ -294,4 +329,15 @@ function isLoggedIn(req, res, next)
 
     // if they aren't redirect them to the home page
     res.redirect('/');
+}
+
+function hasToken(req, res, next)
+{
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated() && req.user.google.token)
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/profile');
 }
