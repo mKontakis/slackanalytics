@@ -2,6 +2,7 @@
   "name": "node-authentication",
   "main": "server.js",
   "dependencies": {
+    "agenda": "^0.9.0",
     "async": "^2.0.1",
     "batchelor": "^2.0.1",
     "bcrypt-nodejs": "latest",

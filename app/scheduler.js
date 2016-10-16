@@ -10,8 +10,9 @@ var user = require('./models/user');
 var queryGenerator = require('./queryGenerator');
 
 var agenda;
+
 var index = 0;
-var createJob = function (report, user) {
+module.exports.createJob = function (report, user) {
         index++;
         agenda.define('Test ' + index, function(job, done) {
             doReport(user);
@@ -148,33 +149,37 @@ function graceful() {
 process.on('SIGTERM', graceful);
 process.on('SIGINT' , graceful);
 
-//Agenda configuration
-var initAgenda = function () {
-    user.User.findOne({'slack.id':'U25V31BML'}, function (err, user) {
 
-    agenda = new Agenda();
-    agenda.database('mongodb://46.101.202.239/dummyDatabase');
-        agenda.processEvery('10 seconds');
 
-        agenda.on('ready', function() {
-            removeStaleJobs(function (e, r) {
-                if (e) {
-                    console.error("Unable to remove stale jobs. Starting anyways.");
-                }
-                for(var i = 0; i < user.reports.length; i++) {
-                    createJob(user.reports[i], user);
-                }
-                agenda.start();
-            });
-
-            // restoreJobs();
-            // agenda.start();
-            // for(var i = 0; i < user.reports.length; i++) {
-            //     createJob(user.reports[i], user);
-            // }
-        })
-    });
-}
+// //Agenda configuration
+// var initAgenda = function () {
+//
+//
+//     user.User.findOne({'slack.id':'U25V31BML'}, function (err, user) {
+//
+//     agenda = new Agenda();
+//     agenda.database('mongodb://46.101.202.239/dummyDatabase');
+//         agenda.processEvery('10 seconds');
+//
+//         agenda.on('ready', function() {
+//             removeStaleJobs(function (e, r) {
+//                 if (e) {
+//                     console.error("Unable to remove stale jobs. Starting anyways.");
+//                 }
+//                 for(var i = 0; i < user.reports.length; i++) {
+//                     createJob(user.reports[i], user);
+//                 }
+//                 agenda.start();
+//             });
+//
+//             // restoreJobs();
+//             // agenda.start();
+//             // for(var i = 0; i < user.reports.length; i++) {
+//             //     createJob(user.reports[i], user);
+//             // }
+//         })
+//     });
+// }
 
 
 
@@ -201,26 +206,7 @@ var restoreJobs = function () {
     })
 }
 
-exports.initTesting = function () {
-    initAgenda();
-
-
-
-        // user.reports = {reports: []};
-        // var report = {
-        //     reportId: '123',
-        //     period: 'Monthly',
-        //     when: {
-        //         interval: 'Every hour/min',
-        //         time: "00:01"
-        //     }};
-        //
-        // user.reports.push(report);
-        // user.save(function (err, updatedUser) {
-        //     if (err) console.log(err);
-        //     console.log('Updated');
-        //
-        // })
-
-
-}
+// exports.initTesting = function () {
+//     initAgenda();
+//
+// }
