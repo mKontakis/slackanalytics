@@ -62,34 +62,37 @@ exports.reportingRequest = function (user, queryBody, callback) {
     //         }]
     // };
 
-    setOauthCredentials(user.google.token, user.google.refreshToken);
-    
-
-    analyticsReporting.reports.batchGet({
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "auth": oauth2Client,
-        "resource": {
-            "reportRequests": queryBody
-        }
-    }, function (err, results) {
+    setOauthCredentials(user, user.google.refreshToken, function (err, msg) {
         if (err) {
-            //TODO: Be smarter about that
             console.log(err);
-            if (err.code == 401) {
-                refreshTokenFunc(user);
-            }
-
-            callback(err, null);
-        } else {
-            //TODO: Treat the response properly.
-         //   console.log(JSON.stringify(results));
-         //   console.log(results.reports[0].data.totals[0]);
-            callback(null, results);
-            //  console.log(JSON.parse(results));
         }
+        analyticsReporting.reports.batchGet({
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "auth": oauth2Client,
+            "resource": {
+                "reportRequests": queryBody
+            }
+        }, function (err, results) {
+            if (err) {
+                //TODO: Be smarter about that
+                console.log(err);
+                if (err.code == 401) {
+                    refreshTokenFunc(user);
+                }
+                callback(err, null);
+            } else {
+                //TODO: Treat the response properly.
+                //   console.log(JSON.stringify(results));
+                //   console.log(results.reports[0].data.totals[0]);
+                callback(null, results);
+                //  console.log(JSON.parse(results));
+            }
+        });
     })
+}
+
 
 
     //Function to refresh google access token when it expires
@@ -98,8 +101,6 @@ exports.reportingRequest = function (user, queryBody, callback) {
             if (err) {
                 console.log("Error refreshing tokens: " + err);
             } else {
-                //Updating user's object access token
-                user.google.accessToken = tokens.access_token;
                 //Update the database through mongoose given using the refresh token as index.
                 //Refresh tokens are unique per user and they dont expire .
                 UserModel.User.update(
@@ -118,14 +119,22 @@ exports.reportingRequest = function (user, queryBody, callback) {
             }
         })
     }
-}
 
-var setOauthCredentials = function (token, refreshToken) {
-    oauth2Client.setCredentials(
-        {
-            access_token: token,
-            refresh_token: refreshToken
-        });
+var setOauthCredentials = function (user, refreshToken, callback) {
+    UserModel.User.findOne(
+        {"slack.id": user.slack.id},
+        function (err, user) {
+            if ((err)) {
+                console.log(err);
+                callback(err, null);
+            }
+            oauth2Client.setCredentials(
+                {
+                    access_token: user.google.token,
+                    refresh_token: refreshToken
+                });
+            callback(null, 'Tokens set');
+        })
 }
 
 //TODO: to be implemented properly
