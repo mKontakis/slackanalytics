@@ -43,7 +43,7 @@
 
                                     <option disabled selected> <%= item.name %> </option>
 
-                                    <% item.webProperties.forEach(function(profile) { %>
+                                    <% item.webProperties[0].profiles.forEach(function(profile) { %>
 
                                         <option value="<%= profile.name +":"+profile.id %>"> <%= profile.name %> </option>
 
@@ -115,6 +115,7 @@
                     <div class="col-sm-1">
                         <select ng-model="" ng-options="" name="timeMinute[]">
                             <option>00</option>
+                            <option>01</option>
                             <option>15</option>
                             <option>30</option>
                             <option>45</option>

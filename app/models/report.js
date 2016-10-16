@@ -2,33 +2,27 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-var user = require('../app/models/user');
+var user = require('./user');
 
-// define the schema for our reports
-var reportSchema = mongoose.Schema(
-    {
-        period              : String,
-        when: {
-            interval        : String,
-            time            : String
+// define the schema for our user model
+var reportSchema = mongoose.Schema({
+    reportId: String,
+    specifications : [{
+        metrics: {
+            'ga:pageviews': Boolean,
+            bounceRate: Boolean
         },
-        specifications      : [{
-            metrics         : {
-                pageViews   : true,
-                bounceRate  : true
-            },
-            dimensions:
-            {
+        dimensions: {
 
-            }
         }
-        ],
-        //Reference to the user it belongs.
-        user: [
-            {
-                type: Schema.Types.ObjectId, ref: user
-            }
-        ]
+    }
+    ]
+    //Reference to the user it belongs.
+    // user: [
+    //     {
+    //         type: Schema.Types.ObjectId, ref: user
+    //     }
+    // ]
     }
 );
 

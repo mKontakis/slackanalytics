@@ -86,7 +86,7 @@ module.exports = function(app, passport)
         req.user.reports.push(report);
         req.user.save();
 
-        scheduler.createJob(report, req.user);
+        scheduler.initAgenda(report, req.user);
 
     });
 
