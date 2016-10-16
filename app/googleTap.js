@@ -9,6 +9,7 @@ var google = require('googleapis');
 var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
+var UserModel = require('../app/models/user');
 
 var configAuth = require('../config/authLocal');
 
@@ -20,62 +21,70 @@ var REDIRECT_URL = configAuth.googleAuth.callbackURL;
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
-exports.getAccountSummariesList = function (CurrentUser, callback)
+exports.getAccountSummariesList = function (user, callback)
 {
+
+    setOauthCredentials(user, user.google.refreshToken, function (err, msg)
+    {
+        if (err)
+        {
+            console.log(err);
+        }
+
+        analytics.management.accountSummaries.list(
+            {
+                'auth': oauth2Client
+
+            }, function (err, response)
+            {
+                if (err)
+                {
+                    if (err.code == 401)
+                    {
+                        refreshTokenFunc(user);
+                    }
+                    console.log(err);
+                    return;
+                }
+
+                callback(null, response);
+            });
+    });
+}
+
+exports.reportingRequest = function (CurrentUser, callback)
+{
+
     oauth2Client.setCredentials(
     {
         access_token: CurrentUser.google.token,
         refresh_token: CurrentUser.google.refreshToken
     });
 
-    analytics.management.accountSummaries.list(
-        {
-            'auth': oauth2Client
-
-        }, function (err, response)
-        {
-            if (err)
-            {
-                console.log(err);
-                return;
-            }
-
-            callback(null, response);
-        });
-}
-
-exports.reportingRequest = function (CurrentUser, callback) {
-
-    oauth2Client.setCredentials(
-        {
-            access_token: CurrentUser.google.token,
-            refresh_token: CurrentUser.google.refreshToken
-        });
-
     //Dummy Request body
     //Request body for the batch request
-    var req = {
-        "viewId":"129070637",
-        "dateRanges":[
-            {
-                "startDate":"2015-06-15",
-                "endDate":"2016-10-06"
-            }],
-        "metrics":[
-            {
-                "expression":"ga:pageviews"
-            }]
+    var req =
+    {
+        "viewId"        :"129070637",
+        "dateRanges"    :[{
+            "startDate" :"2015-06-15",
+            "endDate"   :"2016-10-06"
+        }],
+        "metrics"       :[{
+            "expression":"ga:pageviews"
+        }]
     };
 
     analyticsReporting.reports.batchGet({
-        "headers": {
-            "Content-Type": "application/json"
+        "headers"           : {
+            "Content-Type"  : "application/json"
         },
-        "auth": oauth2Client,
-        "resource": {
+        "auth"              : oauth2Client,
+        "resource"          : {
             "reportRequests": req
         }
-    }, function (err, results) {
+    }, function (err, results)
+    {
         if (err) {
             //TODO: Be smarter about that
             console.log(err.code);
@@ -88,3 +97,49 @@ exports.reportingRequest = function (CurrentUser, callback) {
     })
 }
 
+//Function to refresh google access token when it expires
+function refreshTokenFunc(user)
+{
+    oauth2Client.refreshAccessToken(function (err, tokens)
+    {
+        if (err) {
+            console.log("Error refreshing tokens: " + err);
+        } else {
+            //Update the database through mongoose given using the refresh token as index.
+            //Refresh tokens are unique per user and they dont expire .
+            UserModel.User.update(
+                { "google.refreshToken": user.google.refreshToken },
+                {"$set": { "google.token": tokens.access_token}},
+                {multi: false},
+                function (err, raw) {
+                    if (err) {
+                        console.log('Error log: ' + err)
+                    } else {
+                        console.log("Token updated: " + raw);
+                    }
+                }
+            );
+            console.log("New google access token: " + tokens.access_token);
+        }
+    })
+}
+
+var setOauthCredentials = function (user, refreshToken, callback)
+{
+    UserModel.User.findOne(
+        {"slack.id": user.slack.id},
+        function (err, user)
+        {
+            if ((err)) {
+                console.log(err);
+                callback(err, null);
+            }
+            oauth2Client.setCredentials(
+                {
+                    access_token: user.google.token,
+                    refresh_token: refreshToken
+                });
+
+            callback(null, 'Tokens set');
+        })
+}

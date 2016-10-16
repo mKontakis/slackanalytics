@@ -6,8 +6,9 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var refresh = require('passport-oauth2-refresh');
 
 // load up the user model
-
 var User = require('../app/models/user');
+
+// Go away with the debug functions
 var UserSession = require('../app/models/userSession');
 var Model = require('../app/models/user');
 var User = Model.User;
@@ -51,7 +52,7 @@ module.exports = function(passport)
                 clientID: configAuth.slackbotAuth.clientID,
                 clientSecret: configAuth.slackbotAuth.clientSecret,
                 callbackURL: configAuth.slackbotAuth.callbackURL,
-                scope: 'users:read emoji:read channels:history chat:write:bot bot im:read'
+                scope: 'users:read channels:read channels:history chat:write:bot bot im:read'
             },
             function(accessToken, refreshToken, profile, done)
             {
@@ -63,10 +64,13 @@ module.exports = function(passport)
                     User.findOne({ 'slack.id' : profile.id }, function(err, user)
                     {
                         if (err)
+                        {
                             return done(err);
+                        }
 
                         if (user)
                         {
+                            // TODO what is this line?
                             module.exports.slackToken = user.slack.token;
                             // if a user is found, log them in
                             return done(null, user);
@@ -76,10 +80,12 @@ module.exports = function(passport)
                             var newUser          = new User();
 
                             // set all of the relevant information
-                            newUser.slack.id    = profile.id;
-                            newUser.slack.token = accessToken;
-                            newUser.slack.teamId  = refreshToken;
-                            //   newUser.slack.name = profile; // pull the first email
+                            newUser.slack.id        = profile.id;
+                            newUser.slack.token     = accessToken;
+                            newUser.slack.team      = profile._json.team;
+                            newUser.slack.teamId    = profile._json.team_id;
+                            newUser.slack.name      = profile.displayName;
+                            newUser.slack.user      = profile._json.user;
 
                             // save the user
                             newUser.save(function(err)
@@ -93,7 +99,6 @@ module.exports = function(passport)
                 });
 
             }
-
         ));
 
     // =========================================================================
@@ -293,90 +298,6 @@ module.exports = function(passport)
         });
      */
     refresh.use(googleStrategy);
-
-    // passport.use(new GoogleStrategy(
-    //     {
-    //
-    //         clientID        : configAuth.googleAuth.clientID,
-    //         clientSecret    : configAuth.googleAuth.clientSecret,
-    //         callbackURL     : configAuth.googleAuth.callbackURL,
-    //         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    //
-    //     },
-    //     function(req, token, refreshToken, profile, done)
-    //     {
-    //         // asynchronous
-    //         process.nextTick(function()
-    //         {
-    //             // check if the user is already logged in
-    //             if (!req.user)
-    //             {
-    //                 User.findOne({ 'google.id' : profile.id }, function(err, user)
-    //                 {
-    //                     if (err)
-    //                         return done(err);
-    //
-    //                     if (user)
-    //                     {
-    //                         // if there is a user id already but no token (user was linked at one point and then removed)
-    //                         if (!user.google.token)
-    //                         {
-    //                             user.google.token = token;
-    //                             //user.google.name  = profile.displayName;
-    //                             user.google.refreshToken = refreshToken;
-    //                             //user.google.email = profile.emails[0].value; // pull the first email
-    //
-    //                             user.save(function(err)
-    //                             {
-    //                                 if (err)
-    //                                     throw err;
-    //                                 return done(null, user);
-    //                             });
-    //                         }
-    //
-    //                         return done(null, user);
-    //                     } else
-    //                     {
-    //                         var newUser          = new User();
-    //
-    //                         newUser.google.id    = profile.id;
-    //                         newUser.google.token = token;
-    //                         newUser.google.refreshToken = refreshToken;
-    //                         //newUser.google.name  = profile.displayName;
-    //                         //newUser.google.email = profile.emails[0].value; // pull the first email
-    //
-    //                         newUser.save(function(err)
-    //                         {
-    //                             if (err)
-    //                                 throw err;
-    //                             return done(null, newUser);
-    //                         });
-    //                     }
-    //                 });
-    //
-    //             } else
-    //             {
-    //                 // user already exists and is logged in, we have to link accounts
-    //                 var user               = req.user; // pull the user out of the session
-    //
-    //                 user.google.id    = profile.id;
-    //                 user.google.token = token;
-    //                 user.google.refreshToken = refreshToken;
-    //                 //user.google.name  = profile.displayName;
-    //                 //user.google.email = profile.emails[0].value; // pull the first email
-    //
-    //                 user.save(function(err)
-    //                 {
-    //                     if (err)
-    //                         throw err;
-    //                     return done(null, user);
-    //                 });
-    //
-    //             }
-    //
-    //         });
-    //
-    //     }));
 
     // =========================================================================
     // TWITTER =================================================================

@@ -8,7 +8,6 @@ var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 
-var Batchelor = require('batchelor');
 
 var UserModel = require('../app/models/user');
 
@@ -66,7 +65,7 @@ function getUsers() {
             if( err ) {
                 // One of the iterations produced an error.
             } else {
-                console.log('All iterations complete successfully.');
+             //   console.log('All iterations complete successfully.');
             }
         })
     })
@@ -94,7 +93,7 @@ function listChannels(slackToken, callback) {
                     }
                 }
             } else {
-                console.log(error);
+              //  console.log(error);
                 callback(error);
             }
         });
@@ -128,7 +127,7 @@ function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
 
     }, function (err, response) {
         if (err) {
-            console.log(err);
+           // console.log(err);
             //When access token expires manually refresh it
             refreshTokenFunc(refreshToken);
             return;
@@ -145,10 +144,10 @@ function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
         }, function (err, results) {
             if (err) {
                 //TODO: Be smarter about that
-                console.log(err.code);
+               // console.log(err.code);
             } else {
                 //Treat the response properly.
-                console.log(results.reports[0].data.totals[0].values[0]);
+              //  console.log(results.reports[0].data.totals[0].values[0]);
 
               //  console.log(JSON.parse(results));
             }
@@ -179,12 +178,12 @@ function postMessage(response, channelId, token, callback) {
             },
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    console.log(body);
+                    //console.log(body);
                   //  callback(null, 'Message sent');
                     // console.log(body);
                     callback(null, 'Message sent');
                 } else {
-                    console.log(error);
+                   // console.log(error);
                     callback(error);
                 }
             });
@@ -192,7 +191,7 @@ function postMessage(response, channelId, token, callback) {
 
 function handleReportingResults(results) {
     if (!results.code) {
-        console.log(results);
+       // console.log(results);
     }
 }
 
@@ -217,14 +216,14 @@ eventEmitter.on('testTrigger', usersTriggerHandler);
 var loop = function() {
 
     var i = new Interval(getUsers, 8000);
-    console.log(i.isRunning());
+    //console.log(i.isRunning());
     if (i.isRunning()) {
-        console.log("IS RUNNING");
+       // console.log("IS RUNNING");
     } else {
-        console.log("START");
+       // console.log("START");
 
         i.start();
-        console.log(i.isRunning());
+        //console.log(i.isRunning());
     }
 
 }
@@ -254,7 +253,7 @@ exports.loop = loop;
 function refreshTokenFunc(refreshToken) {
     oauth2Client.refreshAccessToken(function (err, tokens) {
         if (err) {
-            console.log("Error refreshing tokens: " + err);
+           // console.log("Error refreshing tokens: " + err);
         } else {
             //Update the database through mongoose given using the refresh token as index.
             //Refresh tokens are unique per user and they dont expire .
@@ -264,13 +263,13 @@ function refreshTokenFunc(refreshToken) {
                     {multi: false},
                     function (err, raw) {
                         if (err) {
-                            console.log('Error log: ' + err)
+                           // console.log('Error log: ' + err)
                         } else {
-                            console.log("Token updated: " + raw);
+                           // console.log("Token updated: " + raw);
                         }
                     }
             );
-            console.log("New google access token: " + tokens.access_token);
+            //console.log("New google access token: " + tokens.access_token);
         }
     })
 }

@@ -4,30 +4,31 @@ var bcrypt   = require('bcrypt-nodejs');
 
 var user = require('../app/models/user');
 
-// define the schema for our user model
-var reportSchema = mongoose.Schema({
+// define the schema for our reports
+var reportSchema = mongoose.Schema(
+    {
+        period              : String,
+        when: {
+            interval        : String,
+            time            : String
+        },
+        specifications      : [{
+            metrics         : {
+                pageViews   : true,
+                bounceRate  : true
+            },
+            dimensions:
+            {
+
+            }
+        }
+        ],
         //Reference to the user it belongs.
         user: [
             {
                 type: Schema.Types.ObjectId, ref: user
             }
-            ],
-        botConfiguration  : {
-            trigger : {
-                viewsUpperLimit : Number,
-                viewsLowerLimit : Number
-            }
-        },
-        google : {
-            dimensions : {
-                //bla bla
-            },
-            metrics : {
-                pageViews : Boolean,
-                uniquePageViews : Boolean,
-                entrances : Boolean
-            }
-        }
+        ]
     }
 );
 
