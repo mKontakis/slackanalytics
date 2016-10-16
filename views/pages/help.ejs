@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" ng-app="">
+<head>
+    <% include ../partials/head.ejs %>
+</head>
+
+<body>
+    <% include ../partials/navigation.ejs %>
+
+    <div class="main-container" ng-controller="">
+
+        <section class="bg-primary pb0 fillHeight container-fluid">
+
+            <div class="col-sm-12">
+                <h2 class="leadLabel"> Help
+                    <% if (user.google.token) { %>
+                    <div class="sub"><i class="fa fa-check-square" aria-hidden="true"></i> You have hooked Google Analytics successfully. Huzzah!</div>
+                    <% } else { %>
+                    <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> You haven’t hooked Google Analytics yet. Please select below.</div>
+                    <% } %>
+                </h2>
+            </div>
+        </section>
+
+    </div>
+
+    <% include ../partials/footer.ejs %>
+</body>
+</html>

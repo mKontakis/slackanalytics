@@ -745,7 +745,7 @@ footer.bg-dark li,
   margin-left: auto;
   margin-bottom: 10px;
   margin-top: 10px;
-  display: block;!important
+  /*display: block;!important*/
 }
 .btn:last-child,
 .btn:last-of-type {

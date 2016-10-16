@@ -21,28 +21,35 @@ var REDIRECT_URL = configAuth.googleAuth.callbackURL;
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
-exports.getAccountSummariesList = function (CurrentUser, callback)
+exports.getAccountSummariesList = function (user, callback)
 {
-    oauth2Client.setCredentials(
+
+    setOauthCredentials(user, user.google.refreshToken, function (err, msg)
     {
-        access_token: CurrentUser.google.token,
-        refresh_token: CurrentUser.google.refreshToken
-    });
-
-    analytics.management.accountSummaries.list(
+        if (err)
         {
-            'auth': oauth2Client
+            console.log(err);
+        }
 
-        }, function (err, response)
-        {
-            if (err)
+        analytics.management.accountSummaries.list(
             {
-                console.log(err);
-                return;
-            }
+                'auth': oauth2Client
 
-            callback(null, response);
-        });
+            }, function (err, response)
+            {
+                if (err)
+                {
+                    if (err.code == 401)
+                    {
+                        refreshTokenFunc(user);
+                    }
+                    console.log(err);
+                    return;
+                }
+
+                callback(null, response);
+            });
+    });
 }
 
 exports.reportingRequest = function (user, queryBody, callback) {
@@ -86,6 +93,7 @@ exports.reportingRequest = function (user, queryBody, callback) {
                 //TODO: Treat the response properly.
                 //   console.log(JSON.stringify(results));
                 //   console.log(results.reports[0].data.totals[0]);
+                console.log(results);
                 callback(null, results);
                 //  console.log(JSON.parse(results));
             }
@@ -144,9 +152,9 @@ exports.parseGoogleResponse = function (response, callback) {
     for (var result in payload) {
         if (payload.hasOwnProperty(result)) {
             if (output == null) {
-                output = payload[result] + " ";
+                output = "Total page views: " + payload[result] + " - ";
             } else {
-                output += payload[result] + " ";
+                output += "Unique page views: " + payload[result] + " ";
             }
 
         }

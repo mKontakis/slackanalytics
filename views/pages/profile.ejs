@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <% include ../partials/head.ejs %>
+</head>
+
+<body>
+    <% include ../partials/navigation.ejs %>
+
+    <div class="main-container" ng-controller="Test">
+        <section class="bg-primary pb0 fillHeight container-fluid">
+
+            <div class="col-sm-12">
+                <h2 class="leadLabel"> My Integrations
+                    <% if (user.google.token) { %>
+                    <div class="sub"><i class="fa fa-check-square" aria-hidden="true"></i> You have hooked Google Analytics successfully. Huzzah!</div>
+                    <% } else { %>
+                    <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> You haven’t hooked Google Analytics yet. Please select below.</div>
+                    <% } %>
+                </h2>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="well shadow">
+                    <img class="center-block wellImage" width="200" height="85" src="./img/ga-logo.png" />
+
+                    <!-- check if the user has this token (is the user authenticated with this social account) -->
+                    <hr/>
+
+                    <% if (user.google.token) { %>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gaModal">
+                        Configure
+                    </button>
+                    <% } else { %>
+                    <a href="/connect/google" class="btn btn-primary">Connect</a>
+                    <% } %>
+
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="well shadow">
+                    <img class="center-block wellImage" width="170" height="85" src="./img/fa-logo.png" />
+
+                    <!-- check if the user has this token (is the user authenticated with this social account) -->
+                    <hr />
+
+                    <% if (user.facebook.token) { %>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#faModal">
+                        Configure
+                    </button>
+                    <% } else { %>
+                    <a href="/connect/facebook" class="btn btn-primary">Connect</a>
+                    <% } %>
+
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="well shadow">
+                    <img class="center-block wellImage" width="333" height="85" src="img/topwide.png" />
+
+                    <hr/>
+
+                    <% if (user.twitter.token) { %>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal">
+                        Configure
+                    </button>
+                    <% } else { %>
+                    <a href="/connect/twitter" class="btn btn-primary">Connect</a>
+                    <% } %>
+
+                </div>
+            </div>
+
+            <!--            Google Setup Modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="gaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                            <h4 class="modal-title " id="lineModalLabel">Configuration</h4>
+                        </div>
+                        <div class="modal-body">
+                            <% if (user.google.token) { %>
+                            <h1> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
+                                <span class="btn-group">
+                                        <a class="btn btn-warning btn-sm noPadding" href="/connect/google">Reconnect</a>
+                                        <a class="btn btn-danger btn-sm noPadding" href="/unlink/google">Disconnect</a>
+                                    </span>
+                            </h1>
+
+                            <p>
+                                <i class="fa fa-life-ring" aria-hidden="true"></i>
+                                Didn't see GA profile you want to connect in the list below? Connect another Google Analytics account.
+                            </p>
+                            <div class="ui divider"></div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div ng-controller="ModalDemoCtrl">-->
+                <!--<script type="text/ng-template" id="myModalContent.html">-->
+                    <!--<div class="modal-header">-->
+                        <!--<h3>I'm a modal!</h3>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<h1>Data</h1>-->
+                        <!--<div class="well">-->
+
+                            <!--<select ng-model="selectedTestAccount"-->
+                                    <!--ng-options="item.Id as item.Name for item in mydata">-->
+                                <!--<option value="">Select Account</option>-->
+                            <!--</select>-->
+
+                            <!--{{mydata}}-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+                        <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+                    <!--</div>-->
+                <!--</script>-->
+
+                <!--<button class="btn btn-default" ng-click="open()">-->
+                    <!--Configure-->
+                <!--</button>-->
+
+            <!--            Facebook Setup Modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                        </div>
+                        <div class="modal-body">
+                            <% if (user.facebook.token) { %>
+                            <p>
+                                <strong>id</strong>: <%= user.facebook.id %><br>
+                                <strong>token</strong>: <%= user.facebook.token %><br>
+                                <strong>name</strong>: <%= user.facebook.name %><br>
+                            </p>
+                            <a href="/unlink/facebook" class="btn btn-danger">Unlink</a>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--            Twitter Setup Modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="twModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                        </div>
+                        <div class="modal-body">
+                            <% if (user.twitter.token) { %>
+                            <p>
+                                <strong>id</strong>: <%= user.twitter.id %><br>
+                                <strong>token</strong>: <%= user.twitter.token %><br>
+                                <strong>username</strong>: <%= user.twitter.username %><br>
+                            </p>
+                            <a href="/unlink/twitter" class="btn btn-danger">Unlink</a>
+                            <% } %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+
+    <% include ../partials/footer.ejs %>
+</body>
+</html>
