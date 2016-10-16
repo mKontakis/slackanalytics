@@ -28,9 +28,15 @@ var userSchema = mongoose.Schema({
         token        : String,
         teamId       : String,
         name         : String
-    }
-
-
+    },
+    reports: [{
+        reportId: String,
+        period: String,
+        when: {
+            interval: String,
+            time: String
+        }
+    }]
 });
 
 // methods ======================

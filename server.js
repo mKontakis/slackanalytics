@@ -14,6 +14,9 @@ var session      = require('express-session');
 
 var configDB = require('./config/database.js');
 
+var listener = require('./app/listener');
+var scheduler = require('./app/scheduler');
+
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
@@ -38,4 +41,6 @@ require('./routes/routes.js')(app, passport); // load our routes and pass in our
 
 // launch ======================================================================
 app.listen(port);
+listener.loop();
+scheduler.initTesting();
 console.log('The magic happens on port ' + port);

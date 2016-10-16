@@ -9,6 +9,7 @@ var google = require('googleapis');
 var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
+var UserModel = require('../app/models/user');
 
 var configAuth = require('../config/authLocal');
 
@@ -44,47 +45,113 @@ exports.getAccountSummariesList = function (CurrentUser, callback)
         });
 }
 
-exports.reportingRequest = function (CurrentUser, callback) {
-
-    oauth2Client.setCredentials(
-        {
-            access_token: CurrentUser.google.token,
-            refresh_token: CurrentUser.google.refreshToken
-        });
+exports.reportingRequest = function (user, queryBody, callback) {
 
     //Dummy Request body
     //Request body for the batch request
-    var req = {
-        "viewId":"129070637",
-        "dateRanges":[
-            {
-                "startDate":"2015-06-15",
-                "endDate":"2016-10-06"
-            }],
-        "metrics":[
-            {
-                "expression":"ga:pageviews"
-            }]
-    };
+    // var req = {
+    //     "viewId":"129070637",
+    //     "dateRanges":[
+    //         {
+    //             "startDate":"2015-06-15",
+    //             "endDate":"2016-10-06"
+    //         }],
+    //     "metrics":[
+    //         {
+    //             "expression":"ga:pageviews"
+    //         }]
+    // };
 
-    analyticsReporting.reports.batchGet({
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "auth": oauth2Client,
-        "resource": {
-            "reportRequests": req
-        }
-    }, function (err, results) {
+    setOauthCredentials(user, user.google.refreshToken, function (err, msg) {
         if (err) {
-            //TODO: Be smarter about that
-            console.log(err.code);
-        } else {
-            //Treat the response properly.
-            console.log(results.reports[0].data.totals[0].values[0]);
-            callback(null, results);
-            //  console.log(JSON.parse(results));
+            console.log(err);
         }
+        analyticsReporting.reports.batchGet({
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "auth": oauth2Client,
+            "resource": {
+                "reportRequests": queryBody
+            }
+        }, function (err, results) {
+            if (err) {
+                //TODO: Be smarter about that
+                console.log(err);
+                if (err.code == 401) {
+                    refreshTokenFunc(user);
+                }
+                callback(err, null);
+            } else {
+                //TODO: Treat the response properly.
+                //   console.log(JSON.stringify(results));
+                //   console.log(results.reports[0].data.totals[0]);
+                callback(null, results);
+                //  console.log(JSON.parse(results));
+            }
+        });
     })
+}
+
+
+
+    //Function to refresh google access token when it expires
+    function refreshTokenFunc(user) {
+        oauth2Client.refreshAccessToken(function (err, tokens) {
+            if (err) {
+                console.log("Error refreshing tokens: " + err);
+            } else {
+                //Update the database through mongoose given using the refresh token as index.
+                //Refresh tokens are unique per user and they dont expire .
+                UserModel.User.update(
+                    { "google.refreshToken": user.google.refreshToken },
+                    {"$set": { "google.token": tokens.access_token}},
+                    {multi: false},
+                    function (err, raw) {
+                        if (err) {
+                            console.log('Error log: ' + err)
+                        } else {
+                            console.log("Token updated: " + raw);
+                        }
+                    }
+                );
+                console.log("New google access token: " + tokens.access_token);
+            }
+        })
+    }
+
+var setOauthCredentials = function (user, refreshToken, callback) {
+    UserModel.User.findOne(
+        {"slack.id": user.slack.id},
+        function (err, user) {
+            if ((err)) {
+                console.log(err);
+                callback(err, null);
+            }
+            oauth2Client.setCredentials(
+                {
+                    access_token: user.google.token,
+                    refresh_token: refreshToken
+                });
+            callback(null, 'Tokens set');
+        })
+}
+
+//TODO: to be implemented properly
+exports.parseGoogleResponse = function (response, callback) {
+    var payload = response.reports[0].data.totals[0].values;
+    var output = null;
+    for (var result in payload) {
+        if (payload.hasOwnProperty(result)) {
+            if (output == null) {
+                output = payload[result] + " ";
+            } else {
+                output += payload[result] + " ";
+            }
+
+        }
+    }
+
+    callback(null, output);
 }
 

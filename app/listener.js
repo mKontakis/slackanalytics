@@ -8,8 +8,6 @@ var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 
-var Batchelor = require('batchelor');
-
 var UserModel = require('../app/models/user');
 
 // Client ID and client secret are available at
@@ -111,11 +109,6 @@ function queryData(googleToken, refreshToken, slackToken, channelId, callback) {
     //Request body for the batch request
     var req = {
         "viewId":"129070637",
-        "dateRanges":[
-            {
-                "startDate":"2015-06-15",
-                "endDate":"2016-10-06"
-            }],
         "metrics":[
             {
                 "expression":"ga:pageviews"

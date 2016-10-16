@@ -1,5 +1,4 @@
 var listener = require('../app/listener');
-var Configuration = require('../app/models/configuration');
 var request = require('request');
 
 var User = require('../app/models/user');
@@ -88,8 +87,6 @@ module.exports = function(app, passport)
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res)
     {
-
-        listener.loop();
         res.render('profile.ejs',
             {
                 user : req.user // get the user out of session and pass to template
@@ -251,23 +248,6 @@ module.exports = function(app, passport)
 
             res.redirect('/profile');
         });
-    });
-
-    //Route to catch user configuration
-    app.post('/profile/conf', function (req, res) {
-        var conf = new Configuration();
-        conf.configuration.viewsUpperLimit = req.body.viewsUpperLimit;
-        conf.configuration.viewsLowerLimit = req.body.viewsLowerLimit;
-        console.log(conf.viewsUpperLimit);
-        //Save function saves user to database (?How?)
-        conf.save(function(err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('success');
-                }
-            });
-        res.send('200');
     });
 
 };
