@@ -67,11 +67,11 @@ module.exports = function(app, passport)
     {
         //TODO Update report id
         var report = {
-            reportId    : '123',
-            period      : req.body.period,
-            when: {
-                interval: req.body.interval,
-                time    : req.body.timeHour + ":" + req.body.timeMinute
+            "reportId"    : '123',
+            "period"      : req.body.period,
+            "when": {
+                "interval": (req.body.interval),
+                "time"    : req.body.timeHour + ":" + req.body.timeMinute
             }};
 
         var dataSource;

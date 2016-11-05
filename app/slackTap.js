@@ -36,20 +36,22 @@ module.exports.postMessage = function (token, channelId, text, callback) {
         asUser : 'false',
         text: text
     };
-    request(
-        {
-            url: 'https://slack.com/api/chat.postMessage',
-            qs: propertiesObject
-        },
-        function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log(body);
-                //  callback(null, 'Message sent');
-                // console.log(body);
-                callback(null, 'Message sent');
-            } else {
-                console.log(error);
-                callback(error);
-            }
-        });
+    if (text) {
+        request(
+            {
+                url: 'https://slack.com/api/chat.postMessage',
+                qs: propertiesObject
+            },
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body);
+                    callback(null, 'Message sent');
+                } else {
+                    console.log(error);
+                    callback(error);
+                }
+            });
+    } else {
+        callback('Post Message - Not triggered');
+    }
 }

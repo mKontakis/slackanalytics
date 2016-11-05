@@ -39,15 +39,7 @@ var userSchema = mongoose.Schema({
             name     : String
         }
     },
-    reports: [{
-        reportId     : String,
-        period       : String,
-        prefChannel  : String,
-        when: {
-            interval : String,
-            time     : String
-        }
-    }]
+    reports: [mongoose.Schema.Types.Mixed]
 });
 
 // methods ======================

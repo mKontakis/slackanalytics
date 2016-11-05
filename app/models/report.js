@@ -8,10 +8,25 @@ var user = require('./user');
 var reportSchema = mongoose.Schema({
     reportId: String,
     specifications : [{
-        metrics: {
-            'ga:pageviews': Boolean,
-            bounceRate: Boolean
-        },
+        metrics: [
+            {
+                expression: String
+            }
+        ],
+        metricFilterClauses : [
+            {
+                operator: { type: String, default: 'OR'},
+                filters: [
+                    {
+                        metricName: String,
+                        operator: String,
+                        comparisonValue: String,
+                        not: Boolean
+                    }
+                ]
+
+            }
+        ],
         dimensions: {
 
         }
@@ -27,4 +42,4 @@ var reportSchema = mongoose.Schema({
 );
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('Report', reportSchema);
+module.exports = mongoose.model('Reports2', reportSchema);

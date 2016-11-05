@@ -1,70 +1,52 @@
-var CronJob = require('cron').CronJob;
 var Agenda = require('agenda');
-//var Report = require('./models/report');
 var fs = require('fs');
 var async = require('async');
 
 var slackOperations = require('./slackTap');
 var googleOperations = require('./googleTap');
-var user = require('./models/user');
+var UserModel = require('./models/user');
 var queryGenerator = require('./queryGenerator');
 
 var agenda;
 
-var index = 0;
-var createJob = function (report, user) {
-    index++;
-    console.log(report);
+var createJob = function(report, user) {
+    if (report.reportId == '2') {
+        console.log(user.slack.id);
+        //checking if job exists in the database. Avoiding duplicates
+        agenda.jobs({name: "listener", "data.userId": user.slack.id}, function (err, jobs) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (jobs.length > 0) {
+                    console.log(jobs[0].attrs.name);
+                    console.log("Job found");
+                    agenda.start();
+                } else {
+                    var job = agenda.create('listener', {userId: user.slack.id, report: report});
+                    job.repeatEvery('20 seconds');
+                    job.computeNextRunAt();
+                    job.save();
+                    agenda.start();
+                    console.log("Job not found");
+                }
+            }
+        });
 
-
-    agenda.define('Test ' + index, function(job, done) {
-        doReport(user);
-        done();
-    });
-
-    parseWhen(report.when, function (err, data) {
+    } else {
+        parseWhen(report.when, function (err, data) {
             var cronPattern = data.minute + ' '
                 + data.hour + ' '
                 + data.day_month + ' '
                 + data.month + ' '
                 + data.day_week + ' ';
 
-            agenda.every(cronPattern, 'Test ' + index);
+            agenda.create('dummyjob', {userId: user.slack.id, report: report}).repeatEvery(cronPattern).save();
             agenda.start();
             console.log("Agenda initted");
-    })
+        })
+    }
 }
-    // parseWhen(report[1].when, function (err, data) {
-    //     try {
-    //         var cronPattern = data.minute + ' '
-    //             + data.hour + ' '
-    //             + data.day_month + ' '
-    //             + data.month + ' '
-    //             + data.day_week + ' ';
-    //         console.log(cronPattern);
-    //         //Creating the cron job.
-    //         new CronJob(cronPattern,function () {
-    //             doReport(user);
-    //         }, null, true, null, null); //True start the cron job.
-    //     } catch (ex) {
-    //         console.log("cron pattern not valid");
-    //     }
-    // });
 
-var doReport = function (user) {
-    async.waterfall([
-        async.apply(queryGenerator.generateQuery, user),
-        async.retryable(10, async.apply(googleOperations.reportingRequest, user)),
-        googleOperations.parseGoogleResponse,
-        async.apply(slackOperations.postMessage, user.slack.token, '#general')
-    ], function (err, results) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(results);
-        }
-    })
-}
 
 var parseWhen = function (when, callback) {
     var result = {
@@ -75,8 +57,6 @@ var parseWhen = function (when, callback) {
         day_week: '*'
     };
     var time = when.time.split(':');
-    console.log(when.interval);
-    console.log(time);
     switch (when.interval.toString()) {
 
         case 'Every hour/min':
@@ -155,34 +135,47 @@ process.on('SIGTERM', graceful);
 process.on('SIGINT' , graceful);
 
 
-
 //Agenda configuration
 module.exports.initAgenda = function (report, user) {
     agenda = new Agenda();
-    agenda.database('mongodb://46.101.202.239/dummyDatabase');
+    agenda.database('mongodb://95.85.35.149/dummyDatabase');
     agenda.processEvery('10 seconds');
-
+    module.exports.agenda = agenda;
+    require('./reportOne')(agenda);
     agenda.on('ready', function() {
         removeStaleJobs(function (e, r) {
             if (e) {
                 console.error("Unable to remove stale jobs. Starting anyways.");
             }
-            createJob(report, user);
-            // for(var i = 0; i < user.reports.length; i++) {
-            //     createJob(user.reports[i], user);
-            // }
-           // agenda.start();
+            if (report && user) {
+                createJob(report, user);
+            } else {
+               // TEST CODE BEGIN
+                require('./viewsListener')(agenda);
+                UserModel.User.findOne({'slack.id' : "U2600S7RP"}, function(err, kimUser) {
+                    var dummyReport = {
+                        "reportId": "2",
+                        "period": null,
+                        "threshold": {
+                            "max": 20,
+                            "min":-1
+                        },
+                        "when": {
+                            "interval": null,
+                            "time": null
+                        }
+                    }
+                    createJob(dummyReport, kimUser);
+                });
+                //END TEST CODE
+
+                //TODO: Uncomment for production code. Commented for testing purposes.
+                //agenda.start();
+            }
         });
-
-        // restoreJobs();
-        // agenda.start();
-        // for(var i = 0; i < user.reports.length; i++) {
-        //     createJob(user.reports[i], user);
-        // }
-    })
+    }
+    )
 }
-
-
 
 function removeStaleJobs(callback) {
     agenda._collection.update({
@@ -196,13 +189,4 @@ function removeStaleJobs(callback) {
     }, {
         multi: true
     }, callback);
-}
-
-var restoreJobs = function () {
-    agenda.jobs({}, function (err, jobs) {
-        console.log(jobs);
-        // for(var job in jobs) {
-        //     job.start();
-        // }
-    })
 }
