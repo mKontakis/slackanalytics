@@ -159,7 +159,7 @@ process.on('SIGINT' , graceful);
 //Agenda configuration
 module.exports.initAgenda = function (report, user) {
     agenda = new Agenda();
-    agenda.database('mongodb://46.101.202.239/dummyDatabase');
+    agenda.database('mongodb://95.85.35.149/dummyDatabase');
     agenda.processEvery('10 seconds');
 
     agenda.on('ready', function() {

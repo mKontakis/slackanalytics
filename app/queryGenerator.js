@@ -6,6 +6,9 @@ var User = require('./models/user');
 exports.generateQuery = function (userSchema, callback) {
     var requestBody = {};
     var reportId = userSchema.reports[1].reportId;
+
+    console.log(reportId);
+
     //Finding the report that the user signed up from the DB
     Report.findOne({'reportId': + reportId}, function (err, report) {
         if (err) {
