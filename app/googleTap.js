@@ -5,11 +5,13 @@
     It creates a layer of abstraction between the app and api/database.
  */
 
+var moment = require('moment');
 var google = require('googleapis');
 var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 var UserModel = require('../app/models/user');
+var ActiveUsers = require('../app/models/activeUsers');
 
 var configAuth = require('../config/authLocal');
 
@@ -20,6 +22,8 @@ var CLIENT_SECRET = configAuth.googleAuth.clientSecret;
 var REDIRECT_URL = configAuth.googleAuth.callbackURL;
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+
+var chartGenerator = require('./chartGenerator');
 
 exports.getAccountSummariesList = function (user, callback)
 {
@@ -174,13 +178,53 @@ var setOauthCredentials = function (user, refreshToken, callback) {
 }
 
 
-exports.parseGoogleRTrespose = function (report, activeUsers, callback) {
+exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
     //var activeUsers = responseString.toString().split(":")[2].split('"')[1];
     console.log(activeUsers + ", " + report.threshold.max + ", " + report.threshold.min);
+
+
+    var newEntry = {
+        value: activeUsers
+    }
+
+     ActiveUsers.ActiveUsers.findOne({userId: user._id}, function (err, activeUserDocument) {
+         if (activeUserDocument) {
+             activeUserDocument.views.push(newEntry);
+             activeUserDocument.save();
+         } else {
+             var newActiveUsersEntry = new ActiveUsers.ActiveUsers();
+             newActiveUsersEntry.userId = user._id;
+             newActiveUsersEntry.views.push(newEntry);
+             newActiveUsersEntry.save();
+         }
+     });
+
+
     if (activeUsers > report.threshold.max || activeUsers < report.threshold.min) {
         console.log("Real Time --> Triggered");
         var msg = "Your active users are: " + activeUsers;
-        callback(null, msg);
+
+        var today = moment().startOf('day')
+        var tomorrow = moment(today).add(1, 'days')
+        ActiveUsers.ActiveUsers.findOne({userId: user._id, "views.timestamp": { $gt: today.toDate(), $lt: tomorrow.toDate() } }, function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                var samples = results.views;
+
+                chartGenerator.generateChart(samples, function (err, result) {
+                    if (err) console.log(err);
+
+                    var attachments = {
+                        text: "Dummy text",
+                        image_url: result
+                    }
+
+                    callback(null, attachments);
+                });
+            }
+        })
+
     } else {
         console.log("Real Time --> NOT Triggered");
         callback("Not triggered");
@@ -204,9 +248,14 @@ exports.parseGoogleResponse = function (response, callback) {
             }
         }
     }
+
+    var attachments = {
+        text: output
+    }
+
     //Checking the response if contains data
     if (output) {
-        callback(null, output);
+        callback(null, attachments);
     } else {
         console.log("Parse response - NOT Trigerred");
         callback("Not triggered");

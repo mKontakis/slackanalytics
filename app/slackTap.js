@@ -28,15 +28,36 @@ exports.getSlackChannels = function listChannels(currentUser, callback)
 }
 
 //Posts stuff to slack
-module.exports.postMessage = function (token, channelId, text, callback) {
+module.exports.postMessage = function (token, channelId, attachments, callback) {
+
+  //  console.log(attachments);
+
     //Setting the request properties
     var propertiesObject = {
         token: token,
         channel: channelId,
-        asUser : 'false',
-        text: text
+        asUser : 'false'
     };
-    if (text) {
+
+    var attachmentsObject = [];
+    var myObj = {};
+    myObj.attachments = attachments;
+    attachmentsObject.push(attachments);
+    // if (attachments) {
+    //
+    //     for (var attachment in attachments) {
+    //         if (attachments.hasOwnProperty(attachment)) {
+    //             myObj.attachment =  attachments[attachment];
+    //             attachmentsObject.push(myObj);
+    //         }
+    //     }
+    // }
+
+    propertiesObject.attachments = JSON.stringify(attachmentsObject);
+
+ //   propertiesObject = Object.assign(propertiesObject, attachmentsObject);
+    console.log(propertiesObject);
+
         request(
             {
                 url: 'https://slack.com/api/chat.postMessage',
@@ -51,7 +72,4 @@ module.exports.postMessage = function (token, channelId, text, callback) {
                     callback(error);
                 }
             });
-    } else {
-        callback('Post Message - Not triggered');
-    }
 }

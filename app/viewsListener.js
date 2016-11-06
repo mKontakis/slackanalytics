@@ -28,7 +28,7 @@ module.exports = function (agenda) {
 var realTimeReport = function (user, report) {
     async.waterfall([
         async.apply(googleOperations.realTimeRequest, user),
-        async.apply(googleOperations.parseGoogleRTrespose, report),
+        async.apply(googleOperations.parseGoogleRTrespose, user, report),
         async.apply(slackOperations.postMessage, user.slack.token, '#general')
     ], function (err, result) {
 
