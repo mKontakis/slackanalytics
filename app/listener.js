@@ -8,7 +8,6 @@ var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 
-
 var UserModel = require('../app/models/user');
 
 // Client ID and client secret are available at
@@ -190,37 +189,13 @@ function handleReportingResults(results) {
     }
 }
 
-// function executeFunctions() {
-//     async.waterfall(
-//         [
-//             queryData,
-//             postMessage
-//
-//
-//         ], function (err, results) {
-//             console.log(results);
-//         }
-//     )
-// }
-//Dummy Comment
 
 // Bind the connection event with the handler
 eventEmitter.on('testTrigger', usersTriggerHandler);
 
 
 var loop = function() {
-
     var i = new Interval(getUsers, 8000);
-    //console.log(i.isRunning());
-    if (i.isRunning()) {
-       // console.log("IS RUNNING");
-    } else {
-       // console.log("START");
-
-        i.start();
-        //console.log(i.isRunning());
-    }
-
 }
 
 function Interval(fn, time) {
@@ -264,7 +239,6 @@ function refreshTokenFunc(refreshToken) {
                         }
                     }
             );
-            //console.log("New google access token: " + tokens.access_token);
         }
     })
 }

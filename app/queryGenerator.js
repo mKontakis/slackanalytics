@@ -1,6 +1,4 @@
 var Report = require('./models/report');
-var User = require('./models/user');
-
 
 //Generates the body of the HTTP Request for google analytics API
 exports.generateQuery = function (userSchema, userReport, callback) {
@@ -9,8 +7,9 @@ exports.generateQuery = function (userSchema, userReport, callback) {
         var reportId = userReport.reportId;
         //Finding the report that the user signed up from the DB
         Report.findOne({'reportId': + reportId}, function (err, report) {
-            if (err) {
+            if (err || !report) {
                 console.log(err);
+                callback(new Error("No Report exists in the database with id " + reportId));
             }
             //Adding viewId property to requestBody object
             requestBody["viewId"] = userSchema.google.view.id;

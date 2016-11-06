@@ -25,6 +25,12 @@ var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
 var chartGenerator = require('./chartGenerator');
 
+
+/**
+ * Returns all the views of the user
+ * @param user
+ * @param callback
+ */
 exports.getAccountSummariesList = function (user, callback)
 {
     setOauthCredentials(user, user.google.refreshToken, function (err, msg)
@@ -94,11 +100,6 @@ exports.realTimeRequest = function (user, callback) {
             console.log(err);
         }
 
-        var dummyQueryBody = {
-            "ids": "ga:129070637",
-            "metrics": "rt:activeUsers"
-        }
-
         var params = {
             "headers": {
                 "Content-Type": "application/json"
@@ -107,12 +108,6 @@ exports.realTimeRequest = function (user, callback) {
             "ids": "ga:" + user.google.view.id,
             "metrics": "rt:activeUsers"
         };
-
-
-        //Merging objects
-    //    var params2 = Object.assign(params, queryBody);
-
-        // console.log(params2);
 
         analytics.data.realtime.get(params, function (err, response) {
             if (err) {
@@ -179,15 +174,14 @@ var setOauthCredentials = function (user, refreshToken, callback) {
 
 
 exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
-    //var activeUsers = responseString.toString().split(":")[2].split('"')[1];
-    console.log(activeUsers + ", " + report.threshold.max + ", " + report.threshold.min);
-
-
     var newEntry = {
         value: activeUsers
     }
 
+    //Adding active users data to the database.
      ActiveUsers.ActiveUsers.findOne({userId: user._id}, function (err, activeUserDocument) {
+         //If users already has a dedicated document for his active users, push new data to it
+         //else create new document
          if (activeUserDocument) {
              activeUserDocument.views.push(newEntry);
              activeUserDocument.save();
@@ -201,11 +195,9 @@ exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
 
 
     if (activeUsers > report.threshold.max || activeUsers < report.threshold.min) {
-        console.log("Real Time --> Triggered");
-        var msg = "Your active users are: " + activeUsers;
-
         var today = moment().startOf('day')
         var tomorrow = moment(today).add(1, 'days')
+        //TODO: does not return last 24 hours of active users.
         ActiveUsers.ActiveUsers.findOne({userId: user._id, "views.timestamp": { $gt: today.toDate(), $lt: tomorrow.toDate() } }, function (err, results) {
             if (err) {
                 console.log(err);
@@ -216,7 +208,7 @@ exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
                     if (err) console.log(err);
 
                     var attachments = {
-                        text: "Dummy text",
+                        text: "Your active users are: " + activeUsers,
                         image_url: result
                     }
 
@@ -226,7 +218,6 @@ exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
         })
 
     } else {
-        console.log("Real Time --> NOT Triggered");
         callback("Not triggered");
     }
 }
@@ -239,7 +230,6 @@ exports.parseGoogleResponse = function (response, callback) {
     for (var result in payload) {
         if (payload.hasOwnProperty(result)) {
             if (payload[result] > 0) {
-                console.log("Parse response - Trigerred");
                 if (output == null) {
                     output = "Total page views: " + payload[result] + " - ";
                 } else {
@@ -257,7 +247,6 @@ exports.parseGoogleResponse = function (response, callback) {
     if (output) {
         callback(null, attachments);
     } else {
-        console.log("Parse response - NOT Trigerred");
         callback("Not triggered");
     }
 }

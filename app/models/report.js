@@ -32,12 +32,6 @@ var reportSchema = mongoose.Schema({
         }
     }
     ]
-    //Reference to the user it belongs.
-    // user: [
-    //     {
-    //         type: Schema.Types.ObjectId, ref: user
-    //     }
-    // ]
     }
 );
 

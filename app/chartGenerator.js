@@ -1,62 +1,19 @@
-const https = require('https');
+
 var request = require('request');
 var moment = require('moment');
 
-
 module.exports.generateChart = function (samples, callback) {
-
-    var timeFormat = 'HH:mm';
-
     var timestamps = [];
     var data = [];
-    //console.log(samples);
-    // for (var prop in samples) {
-    //     console.log(samples[prop]);
-    //     if (samples.hasOwnProperty(prop)) {
-    //
-    //     }
-    // }
 
-
-   // console.log("Debug #1 " + samples.size);
-   //
-   //  for (var i = 0; i < samples.length; i++){
-   //      var obj = samples[i];
-   //      for (var key in obj){
-   //          var attrName = key;
-   //          var attrValue = obj[key];
-   //          console.log(attrName + " = " + attrValue);
-   //      }
-   //  }
-
-
-    // for (var sample in samples) {
-    //     if (samples.hasOwnProperty(sample)) {
-    //         console.log(sample);
-    //         continue;
-    //     }
-    //     var obj = samples[sample];
-    //
-    //     for (var prop in obj) {
-    //         // skip loop if the property is from prototype
-    //         if(!obj.hasOwnProperty(prop)) continue;
-    //
-    //
-    //       //  console.log(prop + " = " + obj[prop]);
-    //     }
-    // }
-
-   // console.log(samples.length);
     for(var i = 0; i < samples.length; i++) {
-        timestamps.push(samples[i].timestamp);
+        //Parsing the Date string to Date object and format it and push it to the array
+        timestamps.push(moment(samples[i].timestamp).format("Do - HH:mm"));
+        //Push element to array
         data.push(samples[i].value);
-     //   console.log("Debug #2 " + timestamps[0]);
     }
 
-    function newDateString(days) {
-        return moment().add(days, 'd').format(timeFormat);
-    }
-
+    //Chart customization
     var body = JSON.stringify({
         template: 'testtemplate',
         options: {
@@ -65,6 +22,23 @@ module.exports.generateChart = function (samples, callback) {
                 datasets: [
                     {
                         label: "My First dataset",
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderCapStyle: "butt",
+                       //  borderDash: [],
+                       // borderDashOffset: 0.0,
+                        borderJoinStyle: "miter",
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
                         data: data,
                         spanGaps: false
                     }
@@ -84,11 +58,10 @@ module.exports.generateChart = function (samples, callback) {
         body: body
     };
 
+    //Executing the HTTP Request
     request.post(options, function (error, response, body) {
         if (!error && body) {
-
             var json = JSON.parse(body);
-      //      console.log(json.short_url);
             callback(null, json.short_url);
         } else {
             callback(error);
@@ -96,29 +69,4 @@ module.exports.generateChart = function (samples, callback) {
         }
     });
 
-    // var options = {
-    //     hostname: 'charturl.com',
-    //     port: 443,
-    //     path: '/short-urls.json?api_key=dak-0d654c08-5238-4bfd-91ce-a3ecd5d3873c',
-    //     method: 'POST',
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //         "Content-Length": Buffer.byteLength(body)
-    //     }
-    // };
-    //
-    // var req = https.request(options, (res) => {
-    //     console.log('statusCode: ', res.statusCode);
-    //
-    //     res.on('data', (d) => {
-    //        // console.log(d);
-    //         process.stdout.write(d.short_url);
-    //     });
-    // });
-    //
-    // req.end(body);
-    //
-    // req.on('error', (e) => {
-    //     console.error(e);
-    // });
 }

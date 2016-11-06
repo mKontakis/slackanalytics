@@ -1,9 +1,6 @@
 var Agenda = require('agenda');
-var fs = require('fs');
 var async = require('async');
 
-var slackOperations = require('./slackTap');
-var googleOperations = require('./googleTap');
 var UserModel = require('./models/user');
 var queryGenerator = require('./queryGenerator');
 
@@ -11,15 +8,12 @@ var agenda;
 
 var createJob = function(report, user) {
     if (report.reportId == '2') {
-        console.log(user.slack.id);
         //checking if job exists in the database. Avoiding duplicates
         agenda.jobs({name: "listener", "data.userId": user.slack.id}, function (err, jobs) {
             if (err) {
                 console.log(err);
             } else {
                 if (jobs.length > 0) {
-                    console.log(jobs[0].attrs.name);
-                    console.log("Job found");
                     agenda.start();
                 } else {
                     var job = agenda.create('listener', {userId: user.slack.id, report: report});
@@ -27,11 +21,9 @@ var createJob = function(report, user) {
                     job.computeNextRunAt();
                     job.save();
                     agenda.start();
-                    console.log("Job not found");
                 }
             }
-        });
-
+        })
     } else {
         parseWhen(report.when, function (err, data) {
             var cronPattern = data.minute + ' '
@@ -42,7 +34,6 @@ var createJob = function(report, user) {
 
             agenda.create('dummyjob', {userId: user.slack.id, report: report}).repeatEvery(cronPattern).save();
             agenda.start();
-            console.log("Agenda initted");
         })
     }
 }
@@ -64,7 +55,7 @@ var parseWhen = function (when, callback) {
                 result.hour = '*/' + time[0];
                 result.minute = time[1];
             } else {
-                result.hour = '*'
+                result.hour = '*';
                 result.minute = '*/' + time[1];
             }
             callback(null, result);
@@ -126,7 +117,7 @@ var parseWhen = function (when, callback) {
 
 function graceful() {
     agenda.stop(function() {
-        console.log('graceful quit')
+        console.log('graceful quit');
         process.exit(0);
     });
 }
@@ -149,6 +140,7 @@ module.exports.initAgenda = function (report, user) {
             }
             if (report && user) {
                 createJob(report, user);
+            //In this case it enters when the server is restarted
             } else {
                // TEST CODE BEGIN
                 require('./viewsListener')(agenda);
@@ -158,7 +150,7 @@ module.exports.initAgenda = function (report, user) {
                         "period": null,
                         "threshold": {
                             "max": 20,
-                            "min":-1
+                            "min": -1
                         },
                         "when": {
                             "interval": null,

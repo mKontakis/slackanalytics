@@ -7,7 +7,7 @@ var viewsSchema = mongoose.Schema({
     value: String
 })
 
-// define the schema for our user model
+// define the schema
 var activeUsersSchema = mongoose.Schema({
     userId: mongoose.Schema.Types.ObjectId,
     views: [viewsSchema]
