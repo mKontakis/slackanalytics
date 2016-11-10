@@ -30,11 +30,11 @@
                                 Help
                             </a>
                         </li>
-                        <li >
-                            <a href="/billing">
-                                Billing
-                            </a>
-                        </li>
+                        <!--<li >-->
+                            <!--<a href="/billing">-->
+                                <!--Billing-->
+                            <!--</a>-->
+                        <!--</li>-->
                     </ul>
                 </div>
             </div>
@@ -47,11 +47,11 @@
                         </li>
                         <div class="btn-group">
                             <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-slack" aria-hidden="true"></i> slackanalyticsteam <span class="caret"></span>
+                                <i class="fa fa-slack" aria-hidden="true"></i>
+                                <%= user.slack.team %><span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Change Team</a></li>
-                                <li><a href="#">Settings</a></li>
+                                <li><a href="/auth/slack">Change Team</a></li>
                                 <li><a href="/logout">Logout</a></li>
                             </ul>
                         </div>

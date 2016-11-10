@@ -205,9 +205,9 @@ module.exports = function(passport)
                             if (!user.google.token)
                             {
                                 user.google.token = token;
-                                //user.google.name  = profile.displayName;
+                                user.google.name  = profile.name.givenName +" "+ profile.name.familyName;
                                 user.google.refreshToken = refreshToken;
-                                //user.google.email = profile.emails[0].value; // pull the first email
+                                user.google.email = profile.emails[0].value; // pull the first email
                                 user.save(function(err)
                                 {
                                     if (err)
@@ -224,15 +224,12 @@ module.exports = function(passport)
                             newUser.google.id    = profile.id;
                             newUser.google.token = token;
                             newUser.google.refreshToken = refreshToken;
-                            //newUser.google.name  = profile.displayName;
-                            //newUser.google.email = profile.emails[0].value; // pull the first email
+                            newUser.google.name  = profile.name.givenName +" "+ profile.name.familyName;
+                            newUser.google.email = profile.emails[0].value; // pull the first email
 
                             module.exports.AccessToken = token;
                             module.exports.RefreshToken = refreshToken;
-                            // module.exports.userInfo = function () {
-                            //     return newUser;
-                            // }
-                            //Save function saves user to database (?How?)
+
                             newUser.save(function(err)
                             {
                                 if (err)
@@ -250,16 +247,15 @@ module.exports = function(passport)
                     user.google.id    = profile.id;
                     user.google.token = token;
                     user.google.refreshToken = refreshToken;
+                    user.google.name  = profile.name.givenName +" "+ profile.name.familyName;
+                    user.google.email = profile.emails[0].value; // pull the first email
 
                     //Exporting user information
-                    module.exports.UserInfo = {
+                    module.exports.UserInfo =
+                    {
                         AccessToken: token,
                         RefreshToken: refreshToken
                     }
-
-
-                    //user.google.name  = profile.displayName;
-                    //user.google.email = profile.emails[0].value; // pull the first email
 
                     user.save(function(err)
                     {
@@ -267,9 +263,7 @@ module.exports = function(passport)
                             throw err;
                         return done(null, user);
                     });
-
                 }
-
             });
 
         });

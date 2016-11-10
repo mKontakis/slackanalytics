@@ -3191,6 +3191,7 @@ fieldset[disabled] .btn-primary.active {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
+  display: table;
 }
 .btn-success:focus,
 .btn-success.focus {
@@ -3604,7 +3605,7 @@ tbody.collapse.in {
 }
 .dropdown-menu > li > a {
   display: block;
-  padding: 3px 20px;
+  padding: 15px 20px;
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
@@ -4301,7 +4302,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
+  /*position: fixed;*/
   right: 0;
   left: 0;
   z-index: 1030;

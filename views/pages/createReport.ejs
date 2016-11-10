@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <% include ../partials/head.ejs %>
+
+    <link href="/css/faint-bar.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <% include ../partials/navigation.ejs %>
+
+    <div class="main-container">
+        <section class="bg-primary pb0 fillHeight container-fluid">
+
+            <div class="col-sm-12">
+                <h2 class="leadLabel"> Create New Alert <i class="fa fa-hand-o-down" aria-hidden="true"></i> </h2>
+            </div>
+
+            <form action="/newAlert" method="post">
+
+                <div class="row" style="margin-left: 30px">
+                    <% if (user.google.token) { %>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Data Source</h4>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <h4>Period</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <select name="dataSource[]">
+                                    <% items.forEach(function(item) { %>
+                                        <option disabled selected> <%= item.name %> </option>
+                                        <% item.webProperties[0].profiles.forEach(function(profile) { %>
+                                            <option selected="selected" value="<%= profile.name +":"+profile.id %>"> <%= profile.name %> </option>
+                                        <% }); %>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <select name="period[]">
+                                    <option>This Week</option>
+                                    <option>Last Week</option>
+                                    <option>This Month</option>
+                                    <option>Last Month</option>
+                                    <option>Today</option>
+                                    <option>Yesterday</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 col-sm-offset-3">
+                                <button href="/alerts" type="submit" class="btn btn-warning btn-sm">Submit</button>
+                                <a href="/alerts" type="button" class="btn btn-info btn-sm">Cancel</a>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4>When:</h4>
+                            </div>
+                            <div class="col-sm-2">
+                                <h4>Channel:</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-2">
+                                <select name="interval[]">
+                                    <option>Daily</option>
+                                    <option selected="selected">Every hour/min</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <select style="min-width: 0em!important;" name="timeHour[]">
+                                    <option selected="selected">00</option>
+                                    <option>01</option>
+                                    <option>02</option>
+                                    <option>03</option>
+                                    <option>04</option>
+                                    <option>05</option>
+                                    <option>06</option>
+                                    <option>07</option>
+                                    <option>08</option>
+                                    <option>09</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                </select>
+
+                                <select style="min-width: 0em!important;" name="timeMinute[]">
+                                    <option>00</option>
+                                    <option selected="selected">01</option>
+                                    <option>15</option>
+                                    <option>30</option>
+                                    <option>45</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <select name="prefferedChannel[]">
+                                    <% channels.channels.forEach(function(channel) { %>
+                                        <option > <%= channel.name %> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <% } else { %>
+
+                    <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Integrate a Google Analytics profile before attempt to create an Alert </div>
+
+                <% } %>
+
+                    <div class="col-sm-12">
+                        <h2 class="leadLabel"> Select Alert Type <i class="fa fa-hand-o-down" aria-hidden="true"></i> </h2>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="well shadow" style="min-height: 250px;max-height: 260px;">
+
+                            <h4 style="text-align: center"> Abnormal Views Alert </h4>
+
+                            <hr/>
+
+                            <p style="text-align: center;font-weight: 600;">
+                                Define the margin of normal traffic, if your web property escapes
+                                those limit, you will be alerted
+                            </p>
+
+                            <input id="ex12c" type="text" name="margins[]"/><br/>
+
+                            <hr/>
+
+                            <a href="/createAlert" class="btn btn-info active" style="display: table">
+                                Not Selected
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="well shadow" style="min-height: 250px;max-height: 260px;">
+
+                            <h4 style="text-align: center"> Performance Report </h4>
+
+                            <hr/>
+
+                            <p style="padding-bottom: 13px;text-align: center;margin-top: 30px;font-weight: 600;">
+                                Select the past period that interests you as well as when you would like to be
+                                notified about your property's performance.
+                            </p>
+
+                            <hr/>
+
+                            <a class="btn btn-success" style="display: table">
+                                <i class="fa fa-check" aria-hidden="true"></i> Selected
+                            </a>
+
+                        </div>
+                    </div>
+
+                <div class="col-sm-3" style="visibility: hidden">
+                    <select name="reportId[]">
+                        <option value="123">Dummy</option>
+                    </select>
+                </div>
+
+            </form>
+        </section>
+    </div>
+
+    <% include ../partials/footer.ejs %>
+</body>
+</html>

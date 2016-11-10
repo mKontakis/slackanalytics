@@ -140,29 +140,8 @@ module.exports.initAgenda = function (report, user) {
             }
             if (report && user) {
                 createJob(report, user);
-            //In this case it enters when the server is restarted
             } else {
-               // TEST CODE BEGIN
-                require('./viewsListener')(agenda);
-                UserModel.User.findOne({'slack.id' : "U2600S7RP"}, function(err, kimUser) {
-                    var dummyReport = {
-                        "reportId": "2",
-                        "period": null,
-                        "threshold": {
-                            "max": 20,
-                            "min": -1
-                        },
-                        "when": {
-                            "interval": null,
-                            "time": null
-                        }
-                    }
-                    createJob(dummyReport, kimUser);
-                });
-                //END TEST CODE
-
-                //TODO: Uncomment for production code. Commented for testing purposes.
-                //agenda.start();
+                agenda.start();
             }
         });
     }

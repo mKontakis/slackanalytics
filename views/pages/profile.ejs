@@ -28,9 +28,9 @@
                     <hr/>
 
                     <% if (user.google.token) { %>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gaModal">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#gaModal">
                         Configure
-                    </button>
+                    </a>
                     <% } else { %>
                     <a href="/connect/google" class="btn btn-primary">Connect</a>
                     <% } %>
@@ -46,9 +46,9 @@
                     <hr />
 
                     <% if (user.facebook.token) { %>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#faModal">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#faModal">
                         Configure
-                    </button>
+                    </a>
                     <% } else { %>
                     <a href="/connect/facebook" class="btn btn-primary">Connect</a>
                     <% } %>
@@ -63,9 +63,9 @@
                     <hr/>
 
                     <% if (user.twitter.token) { %>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal">
+                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#twModal">
                         Configure
-                    </button>
+                    </a>
                     <% } else { %>
                     <a href="/connect/twitter" class="btn btn-primary">Connect</a>
                     <% } %>
@@ -82,82 +82,51 @@
                             <button type="button" class="close" data-dismiss="modal">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </button>
-                            <h4 class="modal-title " id="lineModalLabel">Configuration</h4>
+                            <h4 class="modal-title " id="lineModalLabel">Google Analytics Account</h4>
                         </div>
                         <div class="modal-body">
                             <% if (user.google.token) { %>
-                            <h1> <i class="fa fa-check-square"></i> Connected at <%= user.google.id %> <%}%>&nbsp; &nbsp;
-                                <span class="btn-group">
-                                        <a class="btn btn-warning btn-sm noPadding" href="/connect/google">Reconnect</a>
-                                        <a class="btn btn-danger btn-sm noPadding" href="/unlink/google">Disconnect</a>
-                                    </span>
-                            </h1>
-
+                            <h1> <i class="fa fa-info-circle"></i> Connected as <%= user.google.name %> <%}%>&nbsp; &nbsp; </h1>
+                                <a class="btn btn-warning" href="/connect/google"><i class="fa fa-user-plus" aria-hidden="true"></i> Reconnect</a>
+                                <a class="btn btn-danger" href="/unlink/google"><i class="fa fa-user-times" aria-hidden="true"></i> Disconnect</a>
                             <p>
                                 <i class="fa fa-life-ring" aria-hidden="true"></i>
-                                Didn't see GA profile you want to connect in the list below? Connect another Google Analytics account.
+                                Connect your property's Google Analytics account and then configure at the Alerts page.
                             </p>
-                            <div class="ui divider"></div>
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                            <button type="button" class="btn btn-success" class="close" data-dismiss="modal">
+                                <i class="fa fa-check-square" aria-hidden="true"></i> Done
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!--<div ng-controller="ModalDemoCtrl">-->
-                <!--<script type="text/ng-template" id="myModalContent.html">-->
-                    <!--<div class="modal-header">-->
-                        <!--<h3>I'm a modal!</h3>-->
-                    <!--</div>-->
-                    <!--<div class="modal-body">-->
-                        <!--<h1>Data</h1>-->
-                        <!--<div class="well">-->
-
-                            <!--<select ng-model="selectedTestAccount"-->
-                                    <!--ng-options="item.Id as item.Name for item in mydata">-->
-                                <!--<option value="">Select Account</option>-->
-                            <!--</select>-->
-
-                            <!--{{mydata}}-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="modal-footer">-->
-                        <!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
-                        <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
-                    <!--</div>-->
-                <!--</script>-->
-
-                <!--<button class="btn btn-default" ng-click="open()">-->
-                    <!--Configure-->
-                <!--</button>-->
-
             <!--            Facebook Setup Modal-->
             <!-- Modal -->
-            <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="gaModalLabel">
+            <div class="modal fade" id="faModal" tabindex="-1" role="dialog" aria-labelledby="faModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                            <h4 class="modal-title " id="lineModalLabel">Facebook Account</h4>
                         </div>
                         <div class="modal-body">
                             <% if (user.facebook.token) { %>
+                            <h1> <i class="fa fa-info-circle"></i> Connected as <%= user.facebook.name %> <%}%>&nbsp; &nbsp; </h1>
+                            <a class="btn btn-danger" href="/unlink/facebook"><i class="fa fa-user-times" aria-hidden="true"></i> Disconnect</a>
                             <p>
-                                <strong>id</strong>: <%= user.facebook.id %><br>
-                                <strong>token</strong>: <%= user.facebook.token %><br>
-                                <strong>name</strong>: <%= user.facebook.name %><br>
+                                <i class="fa fa-life-ring" aria-hidden="true"></i>
+                                Connect your property's Google Analytics and Facebook account, then configure notifications at the Alerts page.
                             </p>
-                            <a href="/unlink/facebook" class="btn btn-danger">Unlink</a>
-                            <% } %>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" class="close" data-dismiss="modal">
+                                <i class="fa fa-check-square" aria-hidden="true"></i> Done
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -169,21 +138,24 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h1 class="modal-title" id="gaModalLabel">Tokens</h1>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                            <h4 class="modal-title " id="lineModalLabel">Twitter Account</h4>
                         </div>
                         <div class="modal-body">
                             <% if (user.twitter.token) { %>
+                            <h1> <i class="fa fa-info-circle"></i> Connected as <%= user.twitter.username %> <%}%>&nbsp; &nbsp; </h1>
+                            <a class="btn btn-danger" href="/unlink/twitter"><i class="fa fa-user-times" aria-hidden="true"></i> Disconnect</a>
                             <p>
-                                <strong>id</strong>: <%= user.twitter.id %><br>
-                                <strong>token</strong>: <%= user.twitter.token %><br>
-                                <strong>username</strong>: <%= user.twitter.username %><br>
+                                <i class="fa fa-life-ring" aria-hidden="true"></i>
+                                Connect your property's Google Analytics and Twitter account, then configure notifications at the Alerts page.
                             </p>
-                            <a href="/unlink/twitter" class="btn btn-danger">Unlink</a>
-                            <% } %>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" class="close" data-dismiss="modal">
+                                <i class="fa fa-check-square" aria-hidden="true"></i> Done
+                            </button>
                         </div>
                     </div>
                 </div>
