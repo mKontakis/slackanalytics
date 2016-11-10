@@ -5,11 +5,13 @@
     It creates a layer of abstraction between the app and api/database.
  */
 
+var moment = require('moment');
 var google = require('googleapis');
 var analytics = google.analytics('v3');
 var analyticsReporting = google.analyticsreporting('v4');
 var OAuth2Client = google.auth.OAuth2;
 var UserModel = require('../app/models/user');
+var ActiveUsers = require('../app/models/activeUsers');
 
 var configAuth = require('../config/authLocal');
 
@@ -21,9 +23,10 @@ var REDIRECT_URL = configAuth.googleAuth.callbackURL;
 
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
+var chartGenerator = require('./chartGenerator');
+
 exports.getAccountSummariesList = function (user, callback)
 {
-
     setOauthCredentials(user, user.google.refreshToken, function (err, msg)
     {
         if (err)
@@ -52,28 +55,14 @@ exports.getAccountSummariesList = function (user, callback)
     });
 }
 
+//Generalized
 exports.reportingRequest = function (user, queryBody, callback) {
-
-    //Dummy Request body
-    //Request body for the batch request
-    // var req = {
-    //     "viewId":"129070637",
-    //     "dateRanges":[
-    //         {
-    //             "startDate":"2015-06-15",
-    //             "endDate":"2016-10-06"
-    //         }],
-    //     "metrics":[
-    //         {
-    //             "expression":"ga:pageviews"
-    //         }]
-    // };
-
     setOauthCredentials(user, user.google.refreshToken, function (err, msg) {
         if (err) {
             console.log(err);
         }
-        analyticsReporting.reports.batchGet({
+
+        var params = {
             "headers": {
                 "Content-Type": "application/json"
             },
@@ -81,52 +70,95 @@ exports.reportingRequest = function (user, queryBody, callback) {
             "resource": {
                 "reportRequests": queryBody
             }
-        }, function (err, results) {
+        };
+
+        analyticsReporting.reports.batchGet(params, function (err, results) {
             if (err) {
                 //TODO: Be smarter about that
                 console.log(err);
-                if (err.code == 401) {
+                if (err.code == 401 || err.code == 403) {
                     refreshTokenFunc(user);
                 }
                 callback(err, null);
             } else {
                 //TODO: Treat the response properly.
-                //   console.log(JSON.stringify(results));
-                //   console.log(results.reports[0].data.totals[0]);
-                console.log(results);
                 callback(null, results);
-                //  console.log(JSON.parse(results));
             }
         });
     })
 }
 
+exports.realTimeRequest = function (user, callback) {
+    setOauthCredentials(user, user.google.refreshToken, function (err, msg) {
+        if (err) {
+            console.log(err);
+        }
+
+        var dummyQueryBody = {
+            "ids": "ga:129070637",
+            "metrics": "rt:activeUsers"
+        }
+
+        var params = {
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "auth": oauth2Client,
+            "ids": "ga:" + user.google.view.id,
+            "metrics": "rt:activeUsers"
+        };
 
 
-    //Function to refresh google access token when it expires
-    function refreshTokenFunc(user) {
-        oauth2Client.refreshAccessToken(function (err, tokens) {
+        //Merging objects
+    //    var params2 = Object.assign(params, queryBody);
+
+        // console.log(params2);
+
+        analytics.data.realtime.get(params, function (err, response) {
             if (err) {
-                console.log("Error refreshing tokens: " + err);
+                //TODO: Be smarter about that
+                console.log(err);
+                if (err.code == 401 || err.code == 403) {
+                    refreshTokenFunc(user);
+                }
+                callback(err, null);
             } else {
-                //Update the database through mongoose given using the refresh token as index.
-                //Refresh tokens are unique per user and they dont expire .
-                UserModel.User.update(
-                    { "google.refreshToken": user.google.refreshToken },
-                    {"$set": { "google.token": tokens.access_token}},
-                    {multi: false},
-                    function (err, raw) {
-                        if (err) {
-                            console.log('Error log: ' + err)
-                        } else {
-                            console.log("Token updated: " + raw);
-                        }
-                    }
-                );
-                console.log("New google access token: " + tokens.access_token);
+                //TODO: Treat the response properly.
+                var responseString = JSON.stringify(response.totalsForAllResults, null, 4);
+                var activeUsers = responseString.toString().split(":")[2].split('"')[1];
+                callback(null, activeUsers);
             }
-        })
-    }
+            }
+        );
+})
+}
+
+
+
+//Function to refresh google access token when it expires
+function refreshTokenFunc(user) {
+    oauth2Client.refreshAccessToken(function (err, tokens) {
+        if (err) {
+            console.log("Error refreshing tokens: " + err);
+        } else {
+            //Update the database through mongoose given using the refresh token as index.
+            //Refresh tokens are unique per user and they dont expire .
+            UserModel.User.update(
+                { "google.refreshToken": user.google.refreshToken },
+                {"$set": { "google.token": tokens.access_token}},
+                {multi: false},
+                function (err, raw) {
+                    if (err) {
+                        console.log('Error log: ' + err)
+                    } else {
+                        console.log("Token updated: " + raw);
+                    }
+                }
+            );
+            console.log("New google access token: " + tokens.access_token);
+        }
+    })
+}
 
 var setOauthCredentials = function (user, refreshToken, callback) {
     UserModel.User.findOne(
@@ -145,21 +177,88 @@ var setOauthCredentials = function (user, refreshToken, callback) {
         })
 }
 
+
+exports.parseGoogleRTrespose = function (user, report, activeUsers, callback) {
+    //var activeUsers = responseString.toString().split(":")[2].split('"')[1];
+    console.log(activeUsers + ", " + report.threshold.max + ", " + report.threshold.min);
+
+
+    var newEntry = {
+        value: activeUsers
+    }
+
+     ActiveUsers.ActiveUsers.findOne({userId: user._id}, function (err, activeUserDocument) {
+         if (activeUserDocument) {
+             activeUserDocument.views.push(newEntry);
+             activeUserDocument.save();
+         } else {
+             var newActiveUsersEntry = new ActiveUsers.ActiveUsers();
+             newActiveUsersEntry.userId = user._id;
+             newActiveUsersEntry.views.push(newEntry);
+             newActiveUsersEntry.save();
+         }
+     });
+
+
+    if (activeUsers > report.threshold.max || activeUsers < report.threshold.min) {
+        console.log("Real Time --> Triggered");
+        var msg = "Your active users are: " + activeUsers;
+
+        var today = moment().startOf('day')
+        var tomorrow = moment(today).add(1, 'days')
+        ActiveUsers.ActiveUsers.findOne({userId: user._id, "views.timestamp": { $gt: today.toDate(), $lt: tomorrow.toDate() } }, function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                var samples = results.views;
+
+                chartGenerator.generateChart(samples, function (err, result) {
+                    if (err) console.log(err);
+
+                    var attachments = {
+                        text: "Dummy text",
+                        image_url: result
+                    }
+
+                    callback(null, attachments);
+                });
+            }
+        })
+
+    } else {
+        console.log("Real Time --> NOT Triggered");
+        callback("Not triggered");
+    }
+}
+
 //TODO: to be implemented properly
 exports.parseGoogleResponse = function (response, callback) {
+   // console.log(JSON.stringify(response, null, 4));
     var payload = response.reports[0].data.totals[0].values;
     var output = null;
     for (var result in payload) {
         if (payload.hasOwnProperty(result)) {
-            if (output == null) {
-                output = "Total page views: " + payload[result] + " - ";
-            } else {
-                output += "Unique page views: " + payload[result] + " ";
+            if (payload[result] > 0) {
+                console.log("Parse response - Trigerred");
+                if (output == null) {
+                    output = "Total page views: " + payload[result] + " - ";
+                } else {
+                    output += "Unique page views: " + payload[result] + " ";
+                }
             }
-
         }
     }
 
-    callback(null, output);
+    var attachments = {
+        text: output
+    }
+
+    //Checking the response if contains data
+    if (output) {
+        callback(null, attachments);
+    } else {
+        console.log("Parse response - NOT Trigerred");
+        callback("Not triggered");
+    }
 }
 

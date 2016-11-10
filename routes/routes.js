@@ -1,94 +1,136 @@
 var listener = require('../app/listener');
-var request = require('request');
-
-var User = require('../app/models/user');
 var googleTap = require('../app/googleTap');
 var slackTap = require('../app/slackTap');
 var scheduler = require('../app/scheduler');
 
+var ObjectId = require('mongodb').ObjectID;
+
 module.exports = function(app, passport)
 {
-    // =====================================
-    // USED FOR DEBUGGING PURPOSES =========
-    // =====================================
-
-    //Slack events router
-    app.post('/', function(req, res)
-    {
-        console.log(req.body);
-        //Slack event API handshake - https://api.slack.com/events-api
-        if (req.body.challenge) {
-            res.send(req.body.challenge);
-        }
-        if (!req.body || !req.body.event){
-            return res.sendStatus(400);
-        } else if (req.body.event.username !== 'NewsTed')
-        {
-            //Passing the user ID from the event API request.
-            postMessage(req.body.event.user);
-        }
-        // Respond to Slack Event API we received their request
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end();
-    });
-
-    function postMessage(userId)
-    {
-        //Retrieve slack token from database for the specific user
-        User.findOne({'slack.id': userId}, 'slack', function (err, user)
-        {
-            if (err) console.log(err);
-            //Setting the request properties
-            var propertiesObject = {
-                token: user.slack.token,
-                channel: 'C25VAJQQ5',
-                text: 'pipes'
-            };
-            //Lets try to make a HTTP GET request to modulus.io's website.
-            request(
-                {
-                    url: 'https://slack.com/api/chat.postMessage',
-                    qs: propertiesObject
-                },
-                function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        console.log(body); // Show the HTML for the Modulus homepage.
-                    }
-                });
-        });
-    }
-
-
     // =====================================
     // ROUTE INTERNAL POST REQUESTS ========
     // =====================================
 
     app.post('/newAlert', function(req, res, next)
     {
-        //TODO Update report id
-        var report = {
-            reportId    : '123',
-            period      : req.body.period,
-            when: {
-                interval: req.body.interval,
-                time    : req.body.timeHour + ":" + req.body.timeMinute
-            }};
 
-        var dataSource;
-        if (typeof req.body.dataSource[0] == 'string') {
-            dataSource = req.body.dataSource[0].split(':')
-            req.user.google.view.id = dataSource[1];
-            req.user.google.view.name = dataSource[0];
-        } else {
-            dataSource = [];
+        if (req.body.reportId == '123')
+        {
+            // Create report
+            var report = {
+                "_id" : new ObjectId(),
+                "reportId"    : req.body.reportId,
+                "period"      : req.body.period,
+                "when": {
+                    "interval": (req.body.interval),
+                    "time"    : req.body.timeHour + ":" + req.body.timeMinute
+                }};
+
+            // Save it and init agenda
+            var dataSource;
+            if (typeof req.body.dataSource[0] == 'string') {
+                dataSource = req.body.dataSource[0].split(':')
+                req.user.google.view.id = dataSource[1];
+                req.user.google.view.name = dataSource[0];
+            } else {
+                dataSource = [];
+            }
+
+            req.user.reports.push(report);
+            req.user.save();
+
+            scheduler.initAgenda(report, req.user);
+
+        } else if (req.body.reportId == '2')
+        {
+            var margins;
+            if (typeof req.body.margins[0] == 'string') {
+                margins = req.body.margins[0].split(',')
+            } else {
+                margins = [];
+            }
+
+            // Create alert
+            var alert = {
+                "_id" : new ObjectId(),
+                "reportId"    : req.body.reportId,
+                "threshold"   :
+                {
+                    "min"     : margins[0],
+                    "max"     : margins[1]
+                }};
+
+            // Save it and init agenda
+            var dataSource;
+            if (typeof req.body.dataSource[0] == 'string') {
+                dataSource = req.body.dataSource[0].split(':')
+                req.user.google.view.id = dataSource[1];
+                req.user.google.view.name = dataSource[0];
+            } else {
+                dataSource = [];
+            }
+
+            req.user.reports.push(alert);
+            req.user.save();
+
+            scheduler.initAgenda(alert, req.user);
         }
 
-        req.user.reports.push(report);
-        req.user.save();
+        var slackChannels, googleViews;
 
-        scheduler.initAgenda(report, req.user);
+        slackTap.getSlackChannels(req.user, function (err, data)
+        {
+            slackChannels = data;
+
+            googleTap.getAccountSummariesList(req.user, function (err, data)
+            {
+                googleViews = data.items;
+
+                res.render('pages/alerts.ejs',
+                    {
+                        user         : req.user,
+                        items        : googleViews,
+                        channels     : slackChannels,
+                        newEntry     : true
+                    });
+            });
+
+        });
 
     });
+
+    app.post('/deleteAlert', function(req, res, next)
+    {
+        // Delete
+
+        var commentId = req.body.objectId; //commentId
+
+        // commentId is the id of the sudocument that must be deleted. add only that
+
+        // Redirect
+        var slackChannels, googleViews;
+
+        slackTap.getSlackChannels(req.user, function (err, data)
+        {
+            slackChannels = data;
+
+            googleTap.getAccountSummariesList(req.user, function (err, data)
+            {
+                googleViews = data.items;
+
+                res.render('pages/alerts.ejs',
+                    {
+                        user         : req.user,
+                        items        : googleViews,
+                        channels     : slackChannels,
+                        newEntry     : false
+                    });
+            });
+
+        });
+
+    });
+
 
     // =====================================
     // ROUTE INTERNAL GET REQUESTS =========
@@ -113,11 +155,15 @@ module.exports = function(app, passport)
     // Main Page
     app.get('/', function(req, res)
     {
-        res.render('pages/index.ejs');
+
+        res.render('pages/index.ejs',
+            {
+                user : req.user, // get the user out of session and pass to template
+                //items: data.items
+            });
+
     });
 
-
-    // Alerts Page
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/alerts', hasToken, function(req, res)
@@ -136,6 +182,61 @@ module.exports = function(app, passport)
                     {
                         user         : req.user,
                         items        : googleViews,
+                        channels     : slackChannels,
+                        newEntry     : false
+                    });
+            });
+
+        });
+
+    });
+
+    // Alerts Page
+    // we will want this protected so you have to be logged in to visit
+    // we will use route middleware to verify this (the isLoggedIn function)
+    app.get('/createAlert', hasToken, function(req, res)
+    {
+        var slackChannels, googleViews;
+
+        slackTap.getSlackChannels(req.user, function (err, data)
+        {
+            slackChannels = data;
+
+            googleTap.getAccountSummariesList(req.user, function (err, data)
+            {
+                googleViews = data.items;
+
+                res.render('pages/createAlert.ejs',
+                    {
+                        user         : req.user,
+                        items        : googleViews,
+                        channels     : slackChannels
+                    });
+            });
+
+        });
+
+    });
+
+    // Reports Page
+    // we will want this protected so you have to be logged in to visit
+    // we will use route middleware to verify this (the isLoggedIn function)
+    app.get('/createReport', hasToken, function(req, res)
+    {
+        var slackChannels, googleViews;
+
+        slackTap.getSlackChannels(req.user, function (err, data)
+        {
+            slackChannels = data;
+
+            googleTap.getAccountSummariesList(req.user, function (err, data)
+            {
+                googleViews = data.items;
+
+                res.render('pages/createReport.ejs',
+                    {
+                        user         : req.user,
+                        items        : googleViews,
                         channels     : slackChannels
                     });
             });
@@ -151,7 +252,6 @@ module.exports = function(app, passport)
         res.render('pages/profile.ejs',
         {
             user : req.user, // get the user out of session and pass to template
-            //items: data.items
         });
     });
 

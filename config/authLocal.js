@@ -11,7 +11,7 @@ module.exports =
     'twitterAuth' : {
         'consumerKey'        : 'PBcN0ea0mLh0cGNaPRmiFjc7U',
         'consumerSecret'     : 'YCLX95B0vNsjqKcOq5MAn4GYUeuCeaoANqr9hnrjouOsi4p7gS',
-        'callbackURL'        : 'localhost/connect/twitter/callback'
+        'callbackURL'        : '/connect/twitter/callback'
     },
 
     'slackbotAuth' :

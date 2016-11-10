@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <% include ../partials/head.ejs %>
+</head>
+
+<body>
+    <% include ../partials/navigation.ejs %>
+
+    <div class="main-container">
+        <section class="bg-primary pb0 fillHeight container-fluid">
+
+            <div class="col-sm-12">
+                <h2 class="leadLabel"> Create New Alert <i class="fa fa-hand-o-down" aria-hidden="true"></i> </h2>
+            </div>
+
+            <form action="/newAlert" method="post">
+
+                <div class="row" style="margin-left: 30px">
+                    <% if (user.google.token) { %>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h4>Data Source</h4>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <h4>Chanel</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <select name="dataSource[]">
+                                    <% items.forEach(function(item) { %>
+                                        <option disabled selected> - <%= item.name %> - </option>
+                                        <% item.webProperties[0].profiles.forEach(function(profile) { %>
+                                            <option selected="selected" value="<%= profile.name +":"+profile.id %>"> <%= profile.name %> </option>
+                                        <% }); %>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <select name="prefferedChannel[]">
+                                    <% channels.channels.forEach(function(channel) { %>
+                                    <option > <%= channel.name %> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3 col-sm-offset-3">
+                                <button href="/alerts" type="submit" class="btn btn-warning btn-sm">Submit</button>
+                                <a href="/alerts" type="button" class="btn btn-info btn-sm">Cancel</a>
+                            </div>
+                        </div>
+                </div>
+
+                <% } else { %>
+
+                    <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Integrate a Google Analytics profile before attempt to create an Alert </div>
+
+                <% } %>
+
+                <div class="col-sm-12">
+                    <h2 class="leadLabel"> Select Alert Type <i class="fa fa-hand-o-down" aria-hidden="true"></i> </h2>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="well shadow" style="min-height: 250px;max-height: 260px;">
+
+                        <h4 style="text-align: center"> Abnormal Views Alert </h4>
+
+                        <hr/>
+
+                        <p style="text-align: center;font-weight: 600;">
+                            Define the margin of normal traffic, if your web property escapes
+                            those limit, you will be alerted
+                        </p>
+
+                        <input id="ex12c" type="text" name="margins[]"/><br/>
+
+                        <hr/>
+
+                        <a class="btn btn-success active" style="display: table">
+                            <i class="fa fa-check" aria-hidden="true"></i> Selected
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="well shadow" style="min-height: 250px;max-height: 260px;">
+
+                        <h4 style="text-align: center"> Performance Report </h4>
+
+                        <hr/>
+
+                        <p style="padding-bottom: 13px;text-align: center;margin-top: 30px;font-weight: 600;">
+                            Select the past period that interests you as well as when you would like to be
+                            notified about your property's performance.
+                        </p>
+
+                        <hr/>
+
+                        <a href="/createReport" class="btn btn-info" style="display: table">
+                            Not Selected
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-3" style="visibility: hidden">
+                    <select name="reportId[]">
+                        <option value="2">Dummy</option>
+                    </select>
+                </div>
+
+            </form>
+        </section>
+    </div>
+
+    <% include ../partials/footer.ejs %>
+</body>
+</html>

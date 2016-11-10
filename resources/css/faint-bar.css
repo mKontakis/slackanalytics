@@ -1,0 +1,11 @@
+#slider12c .slider-track-high {
+    background: gray!important;
+}
+
+#slider12c .slider-track-low {
+    background: gray!important;
+}
+
+#slider12c .slider-selection {
+    background: gainsboro!important;
+}

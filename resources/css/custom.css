@@ -132,24 +132,22 @@ box-sizing: border-box;
     margin-bottom: 25px;
 }
 
-.fillHeight{
-    height: 100vh;
+body{
+    background-color: #3b3be8 !important;
 }
 
 .btn-primary {
     color: #fff;
     background-color: #337ab7;
-}
-
-.bg-primary .btn:hover {
-    color: #fff;
-    background-color: #2f558c;
+    display: table;
+    -webkit-transition: box-shadow 0.1s ease, width 0.1s ease;
+    transition: box-shadow 0.1s ease, width 0.1s ease;
 }
 
 .leadLabel {
     font-size: 28px;
     font-weight: 600;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 
 #dropdownBtn.btn.btn-default.dropdown-toggle:active{
@@ -270,3 +268,35 @@ form > p{
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
+
+.well-icon {
+    font-size: 3em;
+    margin-top: 10px;
+    color: black
+}
+
+.well-text {
+    font-size: 14px !important;
+    color: black !important;
+    font-weight: bold;
+    margin: 0px;
+}
+
+#slider12c{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
+#slider12c .slider-track-high {
+    background: #5cb85c;
+}
+
+#slider12c .slider-track-low {
+    background: #d9534f;
+}
+
+#slider12c .slider-selection {
+    background: #eea236;
+}
+

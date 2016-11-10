@@ -12,136 +12,87 @@
         <section class="bg-primary pb0 fillHeight container-fluid">
 
             <div class="col-sm-12">
-                <h2 class="leadLabel"> My Alerts
-                    <% if (user.google.token) { %>
-                    <div class="sub"><i class="fa fa-check-square" aria-hidden="true"></i> You have hooked Google Analytics successfully. Huzzah! Create an Alert below </div>
-                    <% } else { %>
-                    <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Integrate a Google Analytics profile before attempt to create an Alert </div>
-                    <% } %>
+                <h2 class="leadLabel">
+                    My Alerts
+                    <a class="btn btn-warning btn-sm" href="/createAlert"><i class="fa fa-plus-square" aria-hidden="true"></i> New </a>
                 </h2>
+                <br>
+
+                <% if (newEntry) { %>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong> Your alert has been added to your property.
+                    </div>
+                <% } %>
+
+                    <% if (user.reports.length > 0) { %>
+                        <% user.reports.forEach(function(report) { %>
+
+                            <div class="col-sm-3">
+                                <div class="well shadow">
+
+                                    <% if (report.reportId == '2') { %>
+                                    <div style="min-height: 145px;">
+                                        <h4 style="text-align: center"> Views Alert </h4>
+
+                                        <hr/>
+
+                                        <p>
+                                            Minimum Threshold: <%= report.threshold.min %>
+                                            <br>
+                                            Maximum Threshold: <%= report.threshold.max %>
+                                        </p>
+                                    </div>
+
+                                    <hr/>
+
+                                    <form action="/deleteAlert" method="post">
+                                        <button name="objectId[]" value="<%= report._id %>" class="btn btn-danger" style="display: table">
+                                            Delete <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                    <% } else { %>
+                                    <div>
+                                        <h4 style="text-align: center">Performance Report </h4>
+
+                                        <hr/>
+
+                                        <p> Period: <%= report.period[0] %></p>
+
+                                        <p>
+                                            Repeated Every: <%= report.when.interval[0] %>
+                                            <br>
+                                            Repeated On: <%= report.when.time %>
+                                        </p>
+                                    </div>
+                                        <hr/>
+                                        <a href="/deleteAlert" class="btn btn-danger" style="display: table">
+                                            Delete <i class="fa fa-times" aria-hidden="true"></i>
+                                        </a>
+                                    <% } %>
+
+                                </div>
+                            </div>
+
+                        <% }); %>
+
+                    <% } else { %>
+
+                        <div class="well shadow">
+                            <div class="row">
+                                <div style="text-align: center" class="col-sm-1 col-sm-offset-0">
+                                    <i class="fa fa-calendar well-icon" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-sm-11 col-sm-offset-0">
+                                    <h4 class="well-text">You haven’t created any alerts yet</h4>
+                                    <h4 class="well-text">Reports will be sent to you in the channel you’ve selected at any time you wish.</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    <% } %>
+
             </div>
-
-
-        <% if (user.google.token) { %>
-
-            <form action="/newAlert" method="post">
-
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4>Data Source <span class="label label-default">New</span></h4>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <h4>Period <span class="label label-default">New</span></h4>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-4">
-                            <select name="dataSource[]">
-                                <% items.forEach(function(item) { %>
-
-                                    <option disabled selected> <%= item.name %> </option>
-
-                                    <% item.webProperties[0].profiles.forEach(function(profile) { %>
-
-                                        <option value="<%= profile.name +":"+profile.id %>"> <%= profile.name %> </option>
-
-                                    <% }); %>
-                                <% }); %>
-                            </select>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <select ng-model="" ng-options="" name="period[]">
-                            <option>This Week</option>
-                            <option>Last Week</option>
-                            <option>This Month</option>
-                            <option>Last Month</option>
-                            <option>Today</option>
-                            <option>Yesterday</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-2 col-sm-offset-1">
-                        <a type="button" class="btn btn-danger ">
-                            Cancel
-                        </a>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <input type="submit" value="+Save" class="btn btn-success "></input>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-2">
-                        <h4>When <span class="label label-default">New</span></h4>
-                    </div>
-                    <div class="col-sm-2 col-sm-offset-5">
-                        <h4>Where <span class="label label-default">New</span></h4>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-2">
-                        <select ng-model="" ng-options="" name="interval[]">
-                            <option>Daily</option>
-                            <option>Every hour/min</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-1 col-sm-offset-1">
-                        <select ng-model="" ng-options="" name="timeHour[]">
-                            <option>09</option>
-                            <option>00</option>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                            <option>04</option>
-                            <option>05</option>
-                            <option>06</option>
-                            <option>07</option>
-                            <option>08</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-1">
-                        <select ng-model="" ng-options="" name="timeMinute[]">
-                            <option>00</option>
-                            <option>01</option>
-                            <option>15</option>
-                            <option>30</option>
-                            <option>45</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-3 col-sm-offset-1">
-                        <select ng-model="" ng-options="" name="prefferedChannel[]">
-
-                            <% channels.channels.forEach(function(channel) { %>
-
-                                <option > <%= channel.name %> </option>
-
-                            <% }); %>
-
-                        </select>
-                    </div>
-                </div>
-
-            </form>
-
-        <% } else { %>
-
-            <div class="sub"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Integrate a Google Analytics profile before attempt to create an Alert </div>
-
-        <% } %>
 
         </section>
     </div>
